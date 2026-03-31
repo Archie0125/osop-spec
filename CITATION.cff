@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+title: "OSOP: Open Standard Operating Process"
+message: "If you use or reference OSOP in academic work, please cite it using the metadata in this file."
+type: software
+license: Apache-2.0
+url: "https://osop.ai"
+repository-code: "https://github.com/osop/spec"
+abstract: >
+  OSOP (Open Standard Operating Process) is a universal protocol for defining
+  processes as structured, machine-readable, human-friendly documents. It provides
+  a standard format for describing workflows involving humans, AI agents, APIs,
+  infrastructure, data pipelines, and any other process participants. OSOP uses
+  YAML/JSON serialization with typed nodes, directed edges, message contracts,
+  and four progressive conformance levels from descriptive documentation to
+  production-grade observable workflows.
+keywords:
+  - process definition
+  - workflow specification
+  - open standard
+  - AI agent orchestration
+  - DevOps
+  - CI/CD
+  - process automation
+  - YAML
+  - protocol
+version: "1.0.0-draft"
+date-released: "2026-03-31"
