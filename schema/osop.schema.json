@@ -1,0 +1,203 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Archie0125/osop-spec/schema/osop.schema.json",
+  "title": "OSOP Workflow Schema",
+  "type": "object",
+  "required": ["osop_version", "id", "name", "nodes", "edges"],
+  "additionalProperties": false,
+  "properties": {
+    "osop_version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$" },
+    "id": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "minLength": 1 },
+    "description": { "type": "string" },
+    "owner": { "type": "string" },
+    "visibility": { "type": "string", "enum": ["public", "private"] },
+    "tags": { "type": "array", "items": { "type": "string" } },
+    "workflow_type": {
+      "type": "object",
+      "required": ["primary"],
+      "properties": {
+        "primary": { "type": "string" },
+        "secondary": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "created_at": { "type": "string", "format": "date-time" },
+        "updated_at": { "type": "string", "format": "date-time" },
+        "version": { "type": "string" },
+        "change_summary": { "type": "string" }
+      }
+    },
+    "schemas": { "type": "object", "additionalProperties": { "type": "object" } },
+    "roles": { "type": "array", "items": { "type": "string" } },
+    "nodes": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/node" } },
+    "edges": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/edge" } },
+    "message_contracts": { "type": "array", "items": { "$ref": "#/$defs/messageContract" } },
+    "tests": { "type": "array", "items": { "$ref": "#/$defs/testCase" } },
+    "views": { "type": "array", "items": { "type": "string", "enum": ["graph","story","role","debug","agent"] } },
+    "security": { "$ref": "#/$defs/securityPolicy" },
+    "evolution": { "$ref": "#/$defs/evolutionPolicy" },
+    "ledger": { "$ref": "#/$defs/ledgerPolicy" }
+  },
+  "$defs": {
+    "node": {
+      "type": "object",
+      "required": ["id", "type", "purpose"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "type": { "type": "string", "enum": ["human","agent","api","cli","db","git","docker","cicd","mcp","system"] },
+        "subtype": { "type": "string" },
+        "role": { "type": "string" },
+        "owner": { "type": "string" },
+        "purpose": { "type": "string", "minLength": 1 },
+        "runtime": { "type": "object", "additionalProperties": true },
+        "inputs": { "type": "array", "items": { "$ref": "#/$defs/ioSpec" } },
+        "outputs": { "type": "array", "items": { "$ref": "#/$defs/ioSpec" } },
+        "success_criteria": { "type": "array", "items": { "type": "string" } },
+        "failure_modes": { "type": "array", "items": { "type": "string" } },
+        "retry_policy": { "$ref": "#/$defs/retryPolicy" },
+        "timeout_sec": { "type": "number", "minimum": 0 },
+        "idempotency": { "$ref": "#/$defs/idempotencyPolicy" },
+        "handoff": { "$ref": "#/$defs/handoffSpec" },
+        "explain": { "$ref": "#/$defs/explainSpec" },
+        "observability": { "$ref": "#/$defs/observabilityNode" },
+        "security": { "$ref": "#/$defs/securityNode" }
+      }
+    },
+    "ioSpec": {
+      "type": "object",
+      "required": ["name", "schema"],
+      "properties": {
+        "name": { "type": "string" },
+        "schema": { "type": "string" },
+        "required": { "type": "boolean", "default": false },
+        "description": { "type": "string" }
+      }
+    },
+    "edge": {
+      "type": "object",
+      "required": ["from", "to"],
+      "additionalProperties": false,
+      "properties": {
+        "from": { "type": "string" },
+        "to": { "type": "string" },
+        "mode": { "type": "string", "enum": ["sequential","conditional","parallel","loop","event"], "default": "sequential" },
+        "when": { "type": "string" },
+        "label": { "type": "string" }
+      }
+    },
+    "messageContract": {
+      "type": "object",
+      "required": ["id","producer","consumer","kind","format"],
+      "properties": {
+        "id": { "type": "string" },
+        "producer": { "type": "string" },
+        "consumer": { "type": "string" },
+        "kind": { "type": "string", "enum": ["task","result","state","error","event"] },
+        "format": { "type": "string", "enum": ["json","text"] },
+        "schema_ref": { "type": "string" }
+      }
+    },
+    "testCase": {
+      "type": "object",
+      "required": ["id","type"],
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "type": "string", "enum": ["unit","integration","e2e","simulation"] },
+        "target_node": { "type": "string" },
+        "input": { "type": "object" },
+        "expect": { "type": "object" },
+        "mocks": { "type": "object" },
+        "failure_injection": { "type": "object" }
+      }
+    },
+    "retryPolicy": {
+      "type": "object",
+      "properties": {
+        "max_retries": { "type": "number", "minimum": 0 },
+        "strategy": { "type": "string", "enum": ["fixed","exponential_backoff"] },
+        "backoff_sec": { "type": "number", "minimum": 0 }
+      }
+    },
+    "idempotencyPolicy": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "key": { "type": "string" }
+      }
+    },
+    "handoffSpec": {
+      "type": "object",
+      "properties": {
+        "summary_for_next_node": { "type": "string" },
+        "expected_output": { "type": "string" },
+        "escalation": { "type": "string" }
+      }
+    },
+    "explainSpec": {
+      "type": "object",
+      "properties": {
+        "why": { "type": "string" },
+        "what": { "type": "string" },
+        "result": { "type": "string" }
+      }
+    },
+    "observabilityNode": {
+      "type": "object",
+      "properties": {
+        "log": { "type": "boolean" },
+        "metrics": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "securityPolicy": {
+      "type": "object",
+      "properties": {
+        "secrets_provider": { "type": "string" },
+        "default_permissions": { "type": "array", "items": { "type": "string" } },
+        "approval_required_for": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "securityNode": {
+      "type": "object",
+      "properties": {
+        "permissions": { "type": "array", "items": { "type": "string" } },
+        "secrets": { "type": "array", "items": { "type": "string" } },
+        "risk_level": { "type": "string" },
+        "approval_gate": {
+          "type": "object",
+          "properties": {
+            "required": { "type": "boolean" },
+            "approver_role": { "type": "string" }
+          }
+        }
+      }
+    },
+    "evolutionPolicy": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "strategy": { "type": "string", "enum": ["ai_assisted","manual"] },
+        "feedback_sources": { "type": "array", "items": { "type": "string" } },
+        "output": {
+          "type": "object",
+          "properties": {
+            "mode": { "type": "string", "enum": ["pull_request","patch_only"] },
+            "require_human_approval": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "ledgerPolicy": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "store": { "type": "string" },
+        "artifact_store": { "type": "string" }
+      }
+    }
+  }
+}
