@@ -1,0 +1,78 @@
+osop_version: "1.0"
+id: cicd_deploy
+name: CI/CD Deploy with Rollback
+description: Git push triggers build, test, docker, deploy, smoke test, rollback on failure.
+owner: Archie0125
+visibility: public
+workflow_type:
+  primary: cicd
+views: [graph, story, debug]
+nodes:
+  - id: on_git_push
+    type: git
+    purpose: Listen for repo push event
+    runtime:
+      repo: github.com/Archie0125/myapp
+      action: push_event
+  - id: build
+    type: cli
+    purpose: Build application
+    runtime:
+      os: linux
+      command: npm ci && npm run build
+  - id: unit_test
+    type: cli
+    purpose: Run unit tests
+    runtime:
+      os: linux
+      command: npm test
+    timeout_sec: 600
+  - id: deploy_staging
+    type: cicd
+    purpose: Deploy to staging
+    runtime:
+      provider: github_actions
+      environment: staging
+      action: deploy
+    security:
+      risk_level: medium
+  - id: smoke_test
+    type: api
+    purpose: Health check after deploy
+    runtime:
+      method: GET
+      url: https://staging.example.com/health
+    success_criteria:
+      - HTTP 200
+    retry_policy:
+      max_retries: 2
+      strategy: fixed
+      backoff_sec: 5
+  - id: rollback
+    type: cicd
+    purpose: Rollback if smoke test fails
+    runtime:
+      provider: github_actions
+      environment: staging
+      action: rollback
+    security:
+      risk_level: high
+      approval_gate:
+        required: true
+        approver_role: reviewer
+edges:
+  - from: on_git_push
+    to: build
+  - from: build
+    to: unit_test
+  - from: unit_test
+    to: deploy_staging
+  - from: deploy_staging
+    to: smoke_test
+  - from: smoke_test
+    to: rollback
+    mode: conditional
+    when: result != success
+ledger:
+  enabled: true
+  store: postgres

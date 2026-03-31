@@ -1,0 +1,85 @@
+osop_version: "1.0"
+id: agent_contract_demo
+name: Agent-to-Agent Collaboration Contract
+description: Planner, Executor, Validator, Human Reviewer across different AI models.
+owner: Archie0125
+visibility: public
+workflow_type:
+  primary: agent_orchestration
+views: [graph, story, role, agent]
+schemas:
+  TaskSpec:
+    type: object
+    required: [goal, constraints, deliverable_schema]
+    properties:
+      goal: { type: string }
+      constraints: { type: array, items: { type: string } }
+      deliverable_schema: { type: string }
+  ResultEnvelope:
+    type: object
+    required: [status, payload, summary]
+    properties:
+      status: { type: string, enum: [success, failed, partial] }
+      payload: { type: object }
+      summary: { type: string }
+      confidence: { type: number }
+nodes:
+  - id: planner
+    type: agent
+    role: planner
+    purpose: Convert requirements into executable TaskSpec
+    runtime:
+      provider: anthropic
+      model: claude-sonnet-4-6
+    outputs:
+      - name: task
+        schema: "#/schemas/TaskSpec"
+  - id: executor
+    type: agent
+    role: executor
+    purpose: Execute TaskSpec and produce ResultEnvelope
+    runtime:
+      provider: openai
+      model: gpt-4o
+    inputs:
+      - name: task
+        schema: "#/schemas/TaskSpec"
+        required: true
+    outputs:
+      - name: result
+        schema: "#/schemas/ResultEnvelope"
+  - id: validator
+    type: agent
+    role: validator
+    purpose: Check output against schema and constraints
+    runtime:
+      provider: google
+      model: gemini-1.5-pro
+    inputs:
+      - name: result
+        schema: "#/schemas/ResultEnvelope"
+    outputs:
+      - name: validated
+        schema: "#/schemas/ResultEnvelope"
+    success_criteria:
+      - status == success
+      - confidence >= 0.85
+  - id: human_reviewer
+    type: human
+    role: reviewer
+    purpose: Review low-confidence decisions
+    inputs:
+      - name: validated
+        schema: "#/schemas/ResultEnvelope"
+edges:
+  - from: planner
+    to: executor
+  - from: executor
+    to: validator
+  - from: validator
+    to: human_reviewer
+    mode: conditional
+    when: confidence < 0.85
+ledger:
+  enabled: true
+  store: postgres
