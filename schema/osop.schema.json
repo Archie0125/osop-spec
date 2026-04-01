@@ -17,6 +17,18 @@
       "type": "array",
       "items": { "type": "string" }
     },
+    "status": {
+      "description": "Lifecycle status of this workflow definition.",
+      "type": "string",
+      "enum": ["draft", "active", "deprecated", "template"],
+      "default": "active"
+    },
+    "usage": {
+      "description": "Intended purpose of this .osop file.",
+      "type": "string",
+      "enum": ["plan", "execution", "template", "reference"],
+      "default": "execution"
+    },
     "workflow_type": {
       "type": "object",
       "required": ["primary"],

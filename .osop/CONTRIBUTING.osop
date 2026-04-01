@@ -1,0 +1,95 @@
+osop_version: "1.0"
+id: "contributing-osop-spec"
+name: "Contributing to OSOP Spec"
+description: "How to contribute changes to the OSOP specification, including the RFC process for spec modifications."
+version: "1.0.0"
+status: "active"
+usage: "reference"
+tags: [meta, dogfooding, contributing, spec]
+
+nodes:
+  - id: "read-spec"
+    type: "human"
+    name: "Read Current Spec"
+    description: "Read SPEC.md, schema/osop.schema.json, and existing proposals/ to understand the current state."
+
+  - id: "fork-repo"
+    type: "git"
+    subtype: "branch"
+    name: "Fork & Branch"
+    description: "Fork the repo and create a feature branch from main."
+
+  - id: "draft-change"
+    type: "human"
+    name: "Draft Your Change"
+    description: "For spec changes, create an RFC in proposals/. For schema changes, update osop.schema.json. For docs, update files in docs/."
+
+  - id: "validate-schema"
+    type: "cicd"
+    subtype: "test"
+    name: "Validate Schema"
+    description: "Run JSON Schema validation to ensure the schema is well-formed and backward compatible."
+    timeout_sec: 60
+
+  - id: "run-conformance"
+    type: "cicd"
+    subtype: "test"
+    name: "Run Conformance Tests"
+    description: "Ensure all existing .osop examples still pass validation against the updated schema."
+    timeout_sec: 120
+
+  - id: "submit-pr"
+    type: "git"
+    subtype: "pr"
+    name: "Submit Pull Request"
+    description: "Create a PR with a clear description of the change, motivation, and backward compatibility analysis."
+
+  - id: "spec-review"
+    type: "human"
+    subtype: "review"
+    name: "Spec Review"
+    description: "Core spec editors review the change. Spec changes require 2 approvals."
+    security:
+      risk_level: "medium"
+    approval_gate:
+      required: true
+      approvers: ["spec-editors"]
+      min_approvals: 2
+
+  - id: "merge"
+    type: "git"
+    subtype: "commit"
+    name: "Merge"
+    description: "Squash merge into main after approval."
+
+edges:
+  - from: "read-spec"
+    to: "fork-repo"
+    mode: "sequential"
+  - from: "fork-repo"
+    to: "draft-change"
+    mode: "sequential"
+  - from: "draft-change"
+    to: "validate-schema"
+    mode: "sequential"
+  - from: "validate-schema"
+    to: "run-conformance"
+    mode: "sequential"
+  - from: "run-conformance"
+    to: "submit-pr"
+    mode: "sequential"
+  - from: "run-conformance"
+    to: "draft-change"
+    mode: "fallback"
+    label: "Tests failed — fix and retry"
+  - from: "submit-pr"
+    to: "spec-review"
+    mode: "sequential"
+  - from: "spec-review"
+    to: "merge"
+    mode: "sequential"
+  - from: "spec-review"
+    to: "draft-change"
+    mode: "conditional"
+    when: "review.decision == 'changes_requested'"
+    label: "Address feedback"
