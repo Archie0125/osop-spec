@@ -248,7 +248,21 @@
         "explain": { "$ref": "#/$defs/explainSpec" },
         "observability": { "$ref": "#/$defs/observabilityNode" },
         "security": { "$ref": "#/$defs/securityNode" },
-        "approval_gate": { "$ref": "#/$defs/approvalGate" }
+        "approval_gate": { "$ref": "#/$defs/approvalGate" },
+        "parent": {
+          "description": "ID of parent node that spawns this agent (OSP-0001).",
+          "type": "string"
+        },
+        "spawn_policy": {
+          "description": "Constraints for agent spawning (OSP-0001).",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "max_children": { "type": "integer", "minimum": 1 },
+            "child_tools": { "type": "array", "items": { "type": "string" } },
+            "can_spawn_children": { "type": "boolean", "default": false }
+          }
+        }
       }
     },
     "ioSpec": {
@@ -274,7 +288,7 @@
         "to": { "type": "string" },
         "mode": {
           "type": "string",
-          "enum": ["sequential", "conditional", "parallel", "loop", "event", "fallback", "error", "timeout"],
+          "enum": ["sequential", "conditional", "parallel", "loop", "event", "fallback", "error", "timeout", "spawn"],
           "default": "sequential"
         },
         "when": {
@@ -282,7 +296,13 @@
           "$comment": "Expression language: CEL (Common Expression Language). See https://osop.ai/docs/expression-language",
           "type": "string"
         },
-        "label": { "type": "string" }
+        "label": { "type": "string" },
+        "spawn_count": {
+          "description": "Number of child agents to spawn (for spawn edge mode).",
+          "type": "integer",
+          "minimum": 1,
+          "default": 1
+        }
       }
     },
     "messageContract": {
