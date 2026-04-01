@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://osop.ai/schemas/osop-compat.json",
+  "title": "OSOP Compatibility Declaration",
+  "description": "Schema for .osop-compat.json files that declare a repository's OSOP support level and capabilities.",
+  "type": "object",
+  "required": ["osop_version", "conformance"],
+  "properties": {
+    "osop_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+$",
+      "description": "The OSOP specification version this tool targets (e.g., \"1.0\")."
+    },
+    "conformance": {
+      "type": "string",
+      "enum": ["parse", "validate", "execute", "observe"],
+      "description": "The highest conformance level this tool satisfies."
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of specific capabilities provided (e.g., parse, validate, render, report, execute, trace)."
+    },
+    "extensions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(org|io|com|dev)\\..+"
+      },
+      "description": "Namespaced extensions supported by this tool."
+    },
+    "repo": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL of the source repository."
+    },
+    "maintainer": {
+      "type": "string",
+      "description": "Individual or team responsible for maintaining this tool."
+    }
+  },
+  "additionalProperties": false
+}

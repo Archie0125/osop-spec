@@ -126,6 +126,26 @@ A complete process defined by an OSOP document. A workflow consists of nodes con
 
 The version of a specific workflow, distinct from the OSOP protocol version. Specified in the top-level `version` field using SemVer. Tracks how a particular process evolves over time.
 
+### Agent Runtime Binding
+
+The specification for how AI agents consume `.osop` files as executable SOPs. Defines node-to-action mapping, edge-to-control-flow mapping, context passing, handoff protocols, and security requirements. See [agent-runtime-binding.md](./agent-runtime-binding.md).
+
+### Execution Record (.osoplog)
+
+An immutable record produced by an agent after executing a workflow. Contains per-node timing, status, inputs/outputs, AI metadata (model, tokens, cost, confidence), and human metadata (actor, decision). File extension: `.osoplog`, `.osoplog.yaml`, `.osoplog.json`.
+
+### Iteration
+
+The process of analyzing past `.osoplog` records to identify hotspots, bottlenecks, and failure patterns, then proposing improvements to the `.osop` file. Iteration is what makes OSOP workflows self-improving over time.
+
+### MCP (Model Context Protocol)
+
+An open protocol for connecting AI agents to external tools and data sources. OSOP integrates with MCP through the `mcp` node type and the `osop-mcp` server, which exposes OSOP operations as MCP tools.
+
+### Node-to-Action Mapping
+
+The correspondence between OSOP node types and agent runtime actions. For example, `api` nodes map to HTTP requests, `cli` nodes map to shell commands, `agent` nodes map to LLM invocations. Defined in the Agent Runtime Binding spec.
+
 ---
 
 *See [SPEC.md](./SPEC.md) for the full protocol specification.*

@@ -1,0 +1,161 @@
+osoplog_version: "1.0"
+run_id: "d4e5f6a7-b8c9-0123-4567-89abcdef0123"
+workflow_id: "pr-review-pipeline"
+workflow_version: "1.0.0"
+workflow_hash: "sha256:9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08"
+
+mode: "live"
+status: "COMPLETED"
+
+trigger:
+  type: "event"
+  source: "github-webhook"
+  actor: "alice@example.com"
+  timestamp: "2026-03-31T14:00:00Z"
+
+started_at: "2026-03-31T14:00:00Z"
+ended_at: "2026-03-31T14:05:23Z"
+duration_ms: 323000
+
+runtime:
+  agent: "claude-code"
+  agent_version: "1.0.45"
+  model: "claude-sonnet-4-20250514"
+  platform: "linux-6.1"
+  session_id: "sess_pr42_review"
+
+node_records:
+  - node_id: "pr_opened"
+    node_type: "event"
+    attempt: 1
+    status: "COMPLETED"
+    started_at: "2026-03-31T14:00:00Z"
+    ended_at: "2026-03-31T14:00:00Z"
+    duration_ms: 50
+    outputs:
+      pr_url: "https://github.com/acme/webapp/pull/42"
+      diff_content: "[234 lines, 5 files changed]"
+      branch_name: "feature/auth-refresh"
+
+  - node_id: "run_ci"
+    node_type: "cicd"
+    attempt: 1
+    status: "FAILED"
+    started_at: "2026-03-31T14:00:01Z"
+    ended_at: "2026-03-31T14:02:15Z"
+    duration_ms: 134000
+    error:
+      code: "TEST_FAILURE"
+      message: "2 tests failed in auth.test.ts"
+      details: "Expected token refresh to return 200, got 401"
+
+  - node_id: "run_ci"
+    node_type: "cicd"
+    attempt: 2
+    status: "COMPLETED"
+    started_at: "2026-03-31T14:02:20Z"
+    ended_at: "2026-03-31T14:04:30Z"
+    duration_ms: 130000
+    outputs:
+      ci_result: "pass"
+      test_report: "42/42 passed, 87% coverage"
+
+  - node_id: "ai_code_review"
+    node_type: "agent"
+    attempt: 1
+    status: "COMPLETED"
+    started_at: "2026-03-31T14:00:01Z"
+    ended_at: "2026-03-31T14:00:04Z"
+    duration_ms: 3200
+    inputs:
+      diff_content: "[234 lines]"
+    outputs:
+      review_comments: 3
+      risk_level: "medium"
+      findings:
+        - severity: "high"
+          file: "src/auth/refresh.ts"
+          line: 42
+          message: "Token refresh does not handle concurrent requests — possible race condition"
+        - severity: "medium"
+          file: "src/auth/refresh.ts"
+          line: 78
+          message: "Missing error handling for network timeout"
+        - severity: "low"
+          file: "src/auth/types.ts"
+          line: 12
+          message: "TokenPayload interface should extend BasePayload for consistency"
+    ai_metadata:
+      model: "claude-sonnet-4-20250514"
+      provider: "anthropic"
+      prompt_tokens: 4500
+      completion_tokens: 820
+      cost_usd: 0.021
+      confidence: 0.87
+    tools_used:
+      - { tool: "read_file", calls: 3 }
+      - { tool: "search_code", calls: 2 }
+
+  - node_id: "post_review_comments"
+    node_type: "api"
+    attempt: 1
+    status: "COMPLETED"
+    started_at: "2026-03-31T14:00:04Z"
+    ended_at: "2026-03-31T14:00:05Z"
+    duration_ms: 800
+    outputs:
+      comments_posted: 3
+      review_url: "https://github.com/acme/webapp/pull/42#pullrequestreview-123456"
+
+  - node_id: "human_review"
+    node_type: "human"
+    attempt: 1
+    status: "COMPLETED"
+    started_at: "2026-03-31T14:04:30Z"
+    ended_at: "2026-03-31T14:05:10Z"
+    duration_ms: 40000
+    outputs:
+      decision: "approve"
+    human_metadata:
+      actor: "bob@example.com"
+      decision: "approved"
+      notes: "Race condition fix looks good. Low severity item can be deferred."
+      response_time_ms: 40000
+
+  - node_id: "auto_merge"
+    node_type: "git"
+    attempt: 1
+    status: "COMPLETED"
+    started_at: "2026-03-31T14:05:10Z"
+    ended_at: "2026-03-31T14:05:18Z"
+    duration_ms: 8000
+    outputs:
+      merge_sha: "a1b2c3d4e5f6"
+      merge_method: "squash"
+
+  - node_id: "notify_author"
+    node_type: "api"
+    attempt: 1
+    status: "COMPLETED"
+    started_at: "2026-03-31T14:05:18Z"
+    ended_at: "2026-03-31T14:05:19Z"
+    duration_ms: 500
+    outputs:
+      notification_sent: true
+      channel: "slack-dm"
+
+variables:
+  pr_url: "https://github.com/acme/webapp/pull/42"
+  ci_result: "pass"
+  review_risk: "medium"
+  decision: "approve"
+  merge_sha: "a1b2c3d4e5f6"
+
+result_summary: "PR #42 (auth-refresh) reviewed and merged. AI found 3 issues: 1 high-severity race condition (fixed by author), 1 medium (fixed), 1 low (deferred). CI passed on retry. Human approved in 40s."
+
+cost:
+  total_usd: 0.034
+  breakdown:
+    - { node_id: "ai_code_review", cost_usd: 0.021 }
+    - { node_id: "run_ci", cost_usd: 0.013 }
+    - { node_id: "human_review", cost_usd: 0.0 }

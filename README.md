@@ -92,6 +92,8 @@ npx osop validate deploy.osop.yaml
 | [Conformance Levels](./docs/conformance-levels.md) | Levels 0-3: Descriptive to Observable |
 | [Expression Language](./docs/expression-language.md) | CEL specification for `when` conditions |
 | [Versioning](./docs/versioning.md) | SemVer policy and RFC process |
+| [Agent Runtime Binding](./docs/agent-runtime-binding.md) | How AI agents execute .osop files and produce .osoplog records |
+| [Execution Reports](./docs/execution-report.md) | .osoplog to HTML/text report generation spec |
 | [Glossary](./docs/glossary.md) | Definitions of key terms |
 
 ## What OSOP Covers
@@ -128,6 +130,8 @@ osop-spec/
     conformance-levels.md # Levels 0-3
     expression-language.md # CEL specification
     versioning.md         # Versioning and RFC process
+    agent-runtime-binding.md # How agents execute .osop and produce .osoplog
+    execution-report.md   # .osoplog to report generation spec
     glossary.md           # Key terms
 ```
 

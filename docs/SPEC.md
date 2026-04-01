@@ -524,5 +524,34 @@ observability:
 
 ---
 
+## 18. Agent Runtime Binding
+
+OSOP files serve as executable SOPs for AI agents. See [agent-runtime-binding.md](./agent-runtime-binding.md) for:
+
+- How agents read and execute `.osop` files step by step
+- Node-to-action mapping (each node type → what the agent does)
+- Edge-to-control-flow mapping (each edge mode → agent behavior)
+- `.osoplog` execution record format
+- MCP tool binding
+- Multi-agent orchestration and handoff protocol
+- Iteration protocol (analyze past runs → improve workflow)
+- Security considerations (permission model, dangerous action classification)
+
+---
+
+## 19. Execution Reports
+
+OSOP supports generating human-readable reports from workflow definitions and execution logs. Reports transform `.osoplog` records into structured HTML or plain text summaries.
+
+See [execution-report.md](./execution-report.md) for:
+
+- Three output formats: HTML, ANSI text, plain text
+- Report structure: header, summary, node timeline, cost breakdown
+- Design principles: zero icons, 5-color system, minimal output
+- HTML and text report templates
+- Input modes: definition-only, execution, log-only
+
+---
+
 *For the full JSON Schema definition, see `schema/osop-v1.schema.json`.*
 *For questions and contributions, see [CONTRIBUTING.md](../CONTRIBUTING.md).*
