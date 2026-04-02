@@ -1,8 +1,8 @@
 # OSOP Protocol Specification Summary
 
-**Version:** 1.0.0-draft
+**Version:** 1.1.0-draft
 **Status:** Draft
-**Date:** 2026-03-31
+**Date:** 2026-04-02
 
 ---
 
@@ -143,22 +143,32 @@ edges:
     metadata: {}               # Optional. Arbitrary metadata.
 ```
 
-### 5.2 The 8 Edge Modes
+### 5.2 The 10 Edge Modes
 
-| Mode | Description | `when` Required? |
-|---|---|---|
-| `sequential` | Execute target after source completes. Default mode. | No |
-| `conditional` | Execute target only if `when` evaluates to `true`. | Yes |
-| `parallel` | Execute target concurrently with other parallel edges from same source. | No |
-| `loop` | Repeat target while `when` evaluates to `true`. | Yes |
-| `event` | Execute target when an external event matches `when`. | Yes |
-| `fallback` | Execute target if source fails. | No |
-| `error` | Execute target on specific error conditions matching `when`. | Optional |
-| `timeout` | Execute target if source exceeds its timeout. | No |
+| Mode | Description | `when` Required? | Since |
+|---|---|---|---|
+| `sequential` | Execute target after source completes. Default mode. | No | 1.0 |
+| `conditional` | Execute target only if `when` evaluates to `true`. | Yes | 1.0 |
+| `parallel` | Execute target concurrently with other parallel edges from same source. | No | 1.0 |
+| `loop` | Repeat target while `when` evaluates to `true`. Supports `for_each` iteration. | Yes (or `for_each`) | 1.0 |
+| `event` | Execute target when an external event matches `when`. | Yes | 1.0 |
+| `fallback` | Execute target if source fails. | No | 1.0 |
+| `error` | Execute target on specific error conditions matching `when`. | Optional | 1.0 |
+| `timeout` | Execute target if source exceeds its timeout. | No | 1.0 |
+| `spawn` | Create child agent node (see OSP-0001). | No | 1.0 |
+| `switch` | Route to one of multiple targets based on expression evaluation. | Yes | 1.1 |
 
-### 5.3 Parallel Edges
+### 5.3 Parallel Edges & Join Modes
 
-When multiple edges from the same source node have `mode: parallel`, their targets execute concurrently. The next sequential node waits for all parallel branches to complete (implicit join).
+When multiple edges from the same source node have `mode: parallel`, their targets execute concurrently. By default, the next sequential node waits for **all** parallel branches to complete (implicit join).
+
+**v1.1: Explicit join modes.** You can now control join behavior with `join_mode`:
+
+| Join Mode | Description |
+|---|---|
+| `wait_all` | Wait for all parallel branches to complete. Default. |
+| `wait_any` | Proceed when the first branch completes. |
+| `wait_n` | Proceed when `join_count` branches complete. |
 
 ```yaml
 edges:
@@ -171,16 +181,92 @@ edges:
   - from: "build"
     to: "lint"
     mode: "parallel"
+  # Wait for any 2 of 3 to pass before deploying
   - from: "unit-tests"
     to: "deploy"
-    mode: "sequential"
+    mode: "parallel"
+    join_mode: "wait_n"
+    join_count: 2
   - from: "integration-tests"
     to: "deploy"
-    mode: "sequential"
+    mode: "parallel"
   - from: "lint"
     to: "deploy"
-    mode: "sequential"
+    mode: "parallel"
 ```
+
+### 5.4 foreach Iteration (v1.1)
+
+Loop edges can iterate over a list using `for_each` and `iterator_var` instead of a `when` condition:
+
+```yaml
+edges:
+  - from: "get_users"
+    to: "send_email"
+    mode: "loop"
+    for_each: "outputs.get_users.user_list"
+    iterator_var: "user"
+```
+
+The target node can access the current item via `${loop.user}` in its runtime config.
+
+### 5.5 Switch/Case Routing (v1.1)
+
+The `switch` edge mode routes to exactly one target based on expression evaluation:
+
+```yaml
+edges:
+  - from: "classifier"
+    to: "handler_a"
+    mode: "switch"
+    when: "outputs.classifier.category"
+    cases:
+      - value: "billing"
+        to: "billing_handler"
+      - value: "technical"
+        to: "tech_handler"
+      - value: "general"
+        to: "general_handler"
+    default_to: "fallback_handler"
+```
+
+Only one branch executes (mutual exclusion). If no case matches and no `default_to` is set, the edge is skipped.
+
+### 5.6 Sub-Workflows (v1.1)
+
+Nodes can reference imported sub-workflows for modular composition:
+
+```yaml
+imports:
+  - "./etl-pipeline.osop"
+
+nodes:
+  - id: "run_etl"
+    type: "system"
+    purpose: "Execute ETL sub-workflow"
+    workflow_ref: "etl-pipeline"
+    workflow_inputs:
+      dataset: "${inputs.dataset}"
+      target_table: "analytics.events"
+```
+
+The sub-workflow executes as a single node from the parent's perspective. Its outputs are available as `outputs.run_etl.*`.
+
+### 5.7 Workflow-Level Timeout (v1.1)
+
+A top-level `timeout_sec` sets a deadline for the entire workflow:
+
+```yaml
+osop_version: "1.1"
+id: "daily-report"
+name: "Daily Report Generation"
+timeout_sec: 3600  # 1 hour max
+
+nodes: [...]
+edges: [...]
+```
+
+If any node is still running when the deadline expires, the workflow fails with status `TIMED_OUT`.
 
 ## 6. Message Contracts
 
