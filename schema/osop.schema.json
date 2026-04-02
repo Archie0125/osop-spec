@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://osop.ai/schema/v2.0.0/osop.schema.json",
+  "$id": "https://osop.ai/schema/v2.1.0/osop.schema.json",
   "title": "OSOP Workflow Schema",
   "type": "object",
   "required": ["osop_version", "id", "name", "nodes", "edges"],
@@ -94,6 +94,11 @@
       "description": "0 = descriptive, 1 = validatable, 2 = executable, 3 = observable.",
       "type": "integer",
       "enum": [0, 1, 2, 3]
+    },
+    "timeout_sec": {
+      "description": "Workflow-level timeout in seconds. Cascades to all nodes (v1.1).",
+      "type": "number",
+      "minimum": 0
     },
     "nodes": {
       "type": "array",
@@ -274,6 +279,15 @@
             "child_tools": { "type": "array", "items": { "type": "string" } },
             "can_spawn_children": { "type": "boolean", "default": false }
           }
+        },
+        "workflow_ref": {
+          "description": "URI or id of imported sub-workflow to execute as this node (v1.1).",
+          "type": "string"
+        },
+        "workflow_inputs": {
+          "description": "Input parameters to pass to the sub-workflow (v1.1).",
+          "type": "object",
+          "additionalProperties": true
         }
       }
     },
@@ -300,7 +314,7 @@
         "to": { "type": "string" },
         "mode": {
           "type": "string",
-          "enum": ["sequential", "conditional", "parallel", "loop", "event", "fallback", "error", "timeout", "spawn"],
+          "enum": ["sequential", "conditional", "parallel", "loop", "event", "fallback", "error", "timeout", "spawn", "switch"],
           "default": "sequential"
         },
         "when": {
@@ -314,6 +328,41 @@
           "type": "integer",
           "minimum": 1,
           "default": 1
+        },
+        "for_each": {
+          "description": "CEL expression resolving to a list for iteration (v1.1).",
+          "type": "string"
+        },
+        "iterator_var": {
+          "description": "Variable name for current iteration item (v1.1).",
+          "type": "string"
+        },
+        "join_mode": {
+          "description": "How parallel branches are joined (v1.1).",
+          "type": "string",
+          "enum": ["wait_all", "wait_any", "wait_n"],
+          "default": "wait_all"
+        },
+        "join_count": {
+          "description": "Number of branches to wait for in wait_n mode (v1.1).",
+          "type": "integer",
+          "minimum": 1
+        },
+        "cases": {
+          "description": "Switch/case routing table (v1.1).",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["to"],
+            "properties": {
+              "value": {},
+              "to": { "type": "string" }
+            }
+          }
+        },
+        "default_to": {
+          "description": "Default target for switch edge when no case matches (v1.1).",
+          "type": "string"
         }
       }
     },
