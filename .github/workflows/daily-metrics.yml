@@ -1,0 +1,65 @@
+name: Daily OSOP Ecosystem Metrics
+
+on:
+  schedule:
+    - cron: '3 8 * * *'  # 8:03 AM UTC daily
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  metrics:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Collect ecosystem metrics
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "# OSOP Ecosystem Metrics" > METRICS.md
+          echo "" >> METRICS.md
+          echo "Last updated: $(date -u '+%Y-%m-%d %H:%M UTC')" >> METRICS.md
+          echo "" >> METRICS.md
+
+          # Count repos
+          echo "## Repositories" >> METRICS.md
+          echo "" >> METRICS.md
+          REPOS=$(gh api users/Archie0125/repos --jq '[.[] | select(.name | startswith("osop") or startswith("langchain-osop") or startswith("n8n-nodes"))] | length' 2>/dev/null || echo "?")
+          echo "Total OSOP repos: **${REPOS}**" >> METRICS.md
+          echo "" >> METRICS.md
+
+          # List repos with stars
+          echo "| Repo | Stars | Language |" >> METRICS.md
+          echo "|------|------:|----------|" >> METRICS.md
+          gh api users/Archie0125/repos --paginate --jq '.[] | select(.name | startswith("osop") or startswith("langchain-osop") or startswith("n8n-nodes")) | "| [\(.name)](https://github.com/Archie0125/\(.name)) | \(.stargazers_count) | \(.language // "-") |"' >> METRICS.md 2>/dev/null
+          echo "" >> METRICS.md
+
+          # Count PRs
+          echo "## Pull Requests" >> METRICS.md
+          echo "" >> METRICS.md
+          OPEN_PRS=$(gh search prs --author Archie0125 --state open --limit 100 --json url --jq 'length' 2>/dev/null || echo "?")
+          MERGED_PRS=$(gh search prs --author Archie0125 --state merged --limit 100 --json url --jq 'length' 2>/dev/null || echo "?")
+          echo "- Open PRs: **${OPEN_PRS}**" >> METRICS.md
+          echo "- Merged PRs: **${MERGED_PRS}**" >> METRICS.md
+          echo "" >> METRICS.md
+
+          # List open PRs
+          echo "### Open PRs" >> METRICS.md
+          echo "" >> METRICS.md
+          echo "| Repo | PR | Title |" >> METRICS.md
+          echo "|------|-----|-------|" >> METRICS.md
+          gh search prs --author Archie0125 --state open --limit 30 --json repository,number,title --jq '.[] | "| \(.repository.nameWithOwner) | #\(.number) | \(.title) |"' >> METRICS.md 2>/dev/null
+          echo "" >> METRICS.md
+
+          echo "---" >> METRICS.md
+          echo "*Generated automatically by [daily-metrics.yml](https://github.com/Archie0125/osop-spec/actions)*" >> METRICS.md
+
+      - name: Commit metrics
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add METRICS.md
+          git diff --staged --quiet || git commit -m "chore: update daily ecosystem metrics [skip ci]"
+          git push
