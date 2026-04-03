@@ -1,10 +1,10 @@
 # OSOP Ecosystem Metrics
 
-Last updated: 2026-04-02 08:54 UTC
+Last updated: 2026-04-03 08:51 UTC
 
 ## Repositories
 
-Total OSOP repos: **4**
+Total OSOP repos: **0**
 
 | Repo | Stars | Language |
 |------|------:|----------|
@@ -28,13 +28,27 @@ Total OSOP repos: **4**
 
 ## Pull Requests
 
-- Open PRs: **18**
+- Open PRs: **32**
 - Merged PRs: **?**
 
 ### Open PRs
 
 | Repo | PR | Title |
 |------|-----|-------|
+| aishwaryanr/awesome-generative-ai-guide | #98 | Add AEO Scanner to AI Tools list |
+| best-of-ai/awesome-ai-seo | #27 | Add AEO Scanner to SEO Auditing section |
+| serpapi/awesome-seo-tools | #156 | Add AEO Scanner to Technical SEO section |
+| filipecalegario/awesome-generative-ai | #433 | Add AEO Scanner to Online Tools and Applications |
+| humanloop/awesome-chatgpt | #225 | Add AEO Scanner to Applications |
+| steven2358/awesome-generative-ai | #537 | Add AEO Scanner to Search engines section |
+| luka2chat/awesome-geo | #5 | Add AEO Scanner to Content Optimization Tools |
+| krish-adi/llmstxt-site | #220 | Add AEO Scanner llms.txt |
+| mahseema/awesome-ai-tools | #999 | Add AEO Scanner - Free AEO/GEO Website Scoring Tool |
+| bmpi-dev/awesome-seo | #46 | Add AEO Scanner - Free AEO/GEO Scoring Tool |
+| windmill-labs/windmill | #8670 | Add OSOP workflow example — API data sync in portable format |
+| kestra-io/kestra | #15371 | Add OSOP workflow example — ETL pipeline in portable format |
+| akuity/awesome-argo | #101 | Add osop-interop — Argo Workflows to OSOP converter |
+| restyler/awesome-n8n | #28 | Add n8n-nodes-osop — workflow import/export/validation nodes |
 | agno-agi/agno | #7290 | Add OSOP workflow example — research agent in portable format |
 | PrefectHQ/prefect | #21395 | Add OSOP workflow example — data pipeline in portable format |
 | openai/swarm | #76 | Add OSOP workflow example — agent handoff pattern in portable format |
@@ -51,8 +65,6 @@ Total OSOP repos: **4**
 | continuedev/awesome-rules | #12 | Add OSOP session logging rule |
 | PatrickJS/awesome-cursorrules | #219 | Add OSOP session logging rule |
 | bradAGI/awesome-cli-coding-agents | #28 | Add OSOP — universal workflow logging for AI coding agents |
-| openclaw/openclaw | #58974 | docs: add OSOP workflow skills to community plugins |
-| anthropics/knowledge-work-plugins | #159 | Add OSOP plugin to partner-built |
 
 ---
 *Generated automatically by [daily-metrics.yml](https://github.com/Archie0125/osop-spec/actions)*
