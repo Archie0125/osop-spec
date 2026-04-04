@@ -1,6 +1,6 @@
 # OSOP Ecosystem Metrics
 
-Last updated: 2026-04-03 08:51 UTC
+Last updated: 2026-04-04 08:38 UTC
 
 ## Repositories
 
@@ -28,7 +28,7 @@ Total OSOP repos: **0**
 
 ## Pull Requests
 
-- Open PRs: **32**
+- Open PRs: **31**
 - Merged PRs: **?**
 
 ### Open PRs
@@ -56,15 +56,15 @@ Total OSOP repos: **0**
 | ag2ai/ag2 | #2540 | Add OSOP workflow example — multi-agent debate in portable format |
 | langgenius/dify | #34449 | Add OSOP workflow example — portable format for Dify workflows |
 | FoundationAgents/MetaGPT | #1995 | Add OSOP workflow example — portable format for MetaGPT role orchestration |
-| FlowiseAI/Flowise | #6122 | Add OSOP workflow example — portable chatflow format |
 | crewAIInc/crewAI-examples | #361 | Add OSOP interop — portable workflow format for CrewAI crews |
 | e2b-dev/awesome-ai-agents | #648 | Add OSOP — open standard for AI agent workflows |
 | meirwah/awesome-workflow-engines | #201 | Add OSOP — YAML workflow definition standard with format converters |
-| punkpeye/awesome-mcp-servers | #3983 | Add OSOP MCP Server — workflow validation, conversion & execution |
+| punkpeye/awesome-mcp-servers | #3983 | Add OSOP MCP Server — AI agent workflow validation and risk analysis |
 | detailobsessed/awesome-windsurf | #288 | feat: add OSOP session logging prompt |
 | continuedev/awesome-rules | #12 | Add OSOP session logging rule |
 | PatrickJS/awesome-cursorrules | #219 | Add OSOP session logging rule |
 | bradAGI/awesome-cli-coding-agents | #28 | Add OSOP — universal workflow logging for AI coding agents |
+| openclaw/openclaw | #58974 | docs: add OSOP workflow skills to community plugins |
 
 ---
 *Generated automatically by [daily-metrics.yml](https://github.com/Archie0125/osop-spec/actions)*
