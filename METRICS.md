@@ -1,6 +1,6 @@
 # OSOP Ecosystem Metrics
 
-Last updated: 2026-04-04 08:38 UTC
+Last updated: 2026-04-05 08:40 UTC
 
 ## Repositories
 
@@ -11,7 +11,7 @@ Total OSOP repos: **0**
 | [langchain-osop](https://github.com/Archie0125/langchain-osop) | 0 | Python |
 | [n8n-nodes-osop](https://github.com/Archie0125/n8n-nodes-osop) | 0 | TypeScript |
 | [osop](https://github.com/Archie0125/osop) | 0 | Python |
-| [osop-agent-rules](https://github.com/Archie0125/osop-agent-rules) | 0 | Shell |
+| [osop-agent-rules](https://github.com/Archie0125/osop-agent-rules) | 1 | Shell |
 | [osop-canva](https://github.com/Archie0125/osop-canva) | 0 | TypeScript |
 | [osop-crewai](https://github.com/Archie0125/osop-crewai) | 0 | Python |
 | [osop-editor](https://github.com/Archie0125/osop-editor) | 0 | TypeScript |
@@ -28,7 +28,7 @@ Total OSOP repos: **0**
 
 ## Pull Requests
 
-- Open PRs: **31**
+- Open PRs: **30**
 - Merged PRs: **?**
 
 ### Open PRs
@@ -63,8 +63,8 @@ Total OSOP repos: **0**
 | detailobsessed/awesome-windsurf | #288 | feat: add OSOP session logging prompt |
 | continuedev/awesome-rules | #12 | Add OSOP session logging rule |
 | PatrickJS/awesome-cursorrules | #219 | Add OSOP session logging rule |
-| bradAGI/awesome-cli-coding-agents | #28 | Add OSOP — universal workflow logging for AI coding agents |
 | openclaw/openclaw | #58974 | docs: add OSOP workflow skills to community plugins |
+| anthropics/knowledge-work-plugins | #159 | Add OSOP plugin to partner-built |
 
 ---
 *Generated automatically by [daily-metrics.yml](https://github.com/Archie0125/osop-spec/actions)*
