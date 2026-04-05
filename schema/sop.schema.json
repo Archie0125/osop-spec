@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://osop.ai/schema/sop.schema.json",
+  "title": "SOP Document",
+  "description": "A .sop file is a collection of .osop workflows grouped into sections. It defines a complete SOP document for an API, product, team, or company.",
+  "type": "object",
+  "required": ["sop_version", "id", "name", "sections"],
+  "properties": {
+    "sop_version": {
+      "type": "string",
+      "description": "SOP format version",
+      "enum": ["1.0"]
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for this SOP document"
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief description of what this SOP document covers"
+    },
+    "author": {
+      "type": "string",
+      "description": "Author or team name"
+    },
+    "version": {
+      "type": "string",
+      "description": "Document version (semver)"
+    },
+    "base_url": {
+      "type": "string",
+      "description": "Base URL for API SOPs (optional, for display)"
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Tags for categorization"
+    },
+    "sections": {
+      "type": "array",
+      "description": "Grouped sections of workflows",
+      "items": {
+        "type": "object",
+        "required": ["name", "workflows"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Section heading"
+          },
+          "description": {
+            "type": "string",
+            "description": "Section description"
+          },
+          "workflows": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["ref"],
+              "properties": {
+                "ref": {
+                  "type": "string",
+                  "description": "Relative path to a .osop or .osop.yaml file"
+                },
+                "title": {
+                  "type": "string",
+                  "description": "Override display title (uses .osop name if omitted)"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Override description"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}

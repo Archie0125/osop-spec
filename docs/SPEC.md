@@ -26,6 +26,71 @@ OSOP files use YAML or JSON serialization.
 
 YAML is the canonical format. JSON is supported for programmatic generation and consumption. The two representations are semantically identical.
 
+### 2.1 The Three Formats
+
+OSOP uses three file formats that form a closed loop:
+
+```
+ .sop (SOP Document — the collection)
+ ┌──────────────────────────────────────────────────────┐
+ │                                                      │
+ │  ┌──────────┐   ┌──────────┐   ┌──────────┐        │
+ │  │  .osop   │   │  .osop   │   │  .osop   │        │
+ │  │ workflow │   │ workflow │   │ workflow │        │
+ │  └────┬─────┘   └────┬─────┘   └────┬─────┘        │
+ │       │              │              │               │
+ │  .osoplog x3    .osoplog x5    .osoplog x2         │
+ │       │              │              │               │
+ │       └──── synthesize ────→ optimized .osop        │
+ │                                                      │
+ └──────────────────────────────────────────────────────┘
+```
+
+| Format | Extension | Purpose | Analogy |
+|--------|-----------|---------|---------|
+| `.osop` | `.osop.yaml` | **Workflow definition** — what SHOULD happen. A directed graph of typed nodes connected by edges. | Blueprint / Recipe |
+| `.osoplog` | `.osoplog.yaml` | **Execution record** — what ACTUALLY happened. Immutable evidence of a single run. | Build log / Lab notebook |
+| `.sop` | `.sop` | **SOP Document** — groups multiple `.osop` workflows into a browsable, organized collection. | Folder / Table of contents |
+
+**Relationships:**
+
+1. **`.osop` → execute → `.osoplog`** — Running a workflow produces an execution record.
+2. **Multiple `.osoplog` → synthesize → optimized `.osop`** — AI analyzes execution patterns across multiple runs and produces a generalized, optimized workflow.
+3. **Multiple `.osop` → `.sop`** — Related workflows are grouped into a SOP Document for organized browsing.
+4. **`.osop` + `.osoplog` → diff** — Compare what should have happened against what actually happened.
+5. **`.sop` → render → SOP Doc HTML** — A `.sop` collection renders into a standalone HTML document with collapsible sections and Visual/YAML tabs per workflow.
+
+**The Closed Loop:**
+
+```
+Define (.osop) → Execute → Record (.osoplog) → Synthesize → Define (better .osop)
+```
+
+Every iteration through the loop produces a more optimized workflow. This is "The Loop" — the core value proposition of OSOP.
+
+### 2.2 Synthesis
+
+Synthesis is the process of producing an optimized `.osop` from multiple `.osoplog` execution records.
+
+**Input:**
+- Required: One or more `.osoplog.yaml` files from actual workflow executions
+- Optional: A base `.osop` file to optimize (if omitted, AI infers the workflow structure from logs)
+
+**Process:**
+1. **Aggregate statistics** — Total runs, average duration per node, cost breakdown, success/failure rates
+2. **Detect patterns** — Slow steps, failure hotspots, steps that could be parallelized, missing approval gates
+3. **Generate optimized workflow** — AI produces a new `.osop` that incorporates discovered optimizations
+
+**Output:**
+- An optimized `.osop.yaml` file
+- Synthesis insights (what was changed and why)
+- Statistics summary (before vs. after metrics)
+
+**CLI:**
+```bash
+osop synthesize run1.osoplog.yaml run2.osoplog.yaml --goal "reduce cost" -o optimized.osop.yaml
+```
+
 ## 3. Document Structure
 
 Every OSOP document is a single YAML/JSON object with the following top-level structure:

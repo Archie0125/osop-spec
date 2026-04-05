@@ -95,6 +95,10 @@
       "type": "integer",
       "enum": [0, 1, 2, 3]
     },
+    "version": {
+      "description": "Workflow version (SemVer).",
+      "type": "string"
+    },
     "timeout_sec": {
       "description": "Workflow-level timeout in seconds. Cascades to all nodes (v1.1).",
       "type": "number",
@@ -146,9 +150,8 @@
     },
     "node": {
       "type": "object",
-      "required": ["id", "type", "purpose"],
-      "additionalProperties": false,
-      "patternProperties": { "^x-": {} },
+      "required": ["id", "type"],
+      "additionalProperties": true,
       "properties": {
         "id": { "type": "string", "minLength": 1 },
         "name": { "type": "string" },
@@ -160,6 +163,17 @@
         "role": { "type": "string" },
         "owner": { "type": "string" },
         "purpose": { "type": "string", "minLength": 1 },
+        "description": { "type": "string" },
+        "cost": {
+          "description": "Estimated cost metadata for this node.",
+          "type": "object",
+          "additionalProperties": true
+        },
+        "message_contract": {
+          "description": "Message contract for inter-node communication.",
+          "type": "object",
+          "additionalProperties": true
+        },
         "runtime": {
           "description": "Node runtime config.",
           "type": "object",
@@ -265,7 +279,12 @@
         "explain": { "$ref": "#/$defs/explainSpec" },
         "observability": { "$ref": "#/$defs/observabilityNode" },
         "security": { "$ref": "#/$defs/securityNode" },
-        "approval_gate": { "$ref": "#/$defs/approvalGate" },
+        "approval_gate": {
+          "oneOf": [
+            { "type": "boolean" },
+            { "$ref": "#/$defs/approvalGate" }
+          ]
+        },
         "parent": {
           "description": "ID of parent node that spawns this agent (OSP-0001).",
           "type": "string"
@@ -292,17 +311,21 @@
       }
     },
     "ioSpec": {
-      "type": "object",
-      "required": ["name", "schema"],
-      "additionalProperties": false,
-      "patternProperties": { "^x-": {} },
-      "properties": {
-        "name": { "type": "string" },
-        "schema": { "type": "string" },
-        "required": { "type": "boolean", "default": false },
-        "description": { "type": "string" },
-        "explain": { "$ref": "#/$defs/explainSpec" }
-      }
+      "oneOf": [
+        { "type": "string" },
+        {
+          "type": "object",
+          "required": ["name"],
+          "additionalProperties": true,
+          "properties": {
+            "name": { "type": "string" },
+            "schema": { "type": "string" },
+            "required": { "type": "boolean", "default": false },
+            "description": { "type": "string" },
+            "explain": { "$ref": "#/$defs/explainSpec" }
+          }
+        }
+      ]
     },
     "edge": {
       "type": "object",
@@ -322,6 +345,11 @@
           "$comment": "Expression language: CEL (Common Expression Language). See https://osop.ai/docs/expression-language",
           "type": "string"
         },
+        "condition": {
+          "description": "Alias for 'when' (backward compatibility).",
+          "type": "string"
+        },
+        "explain": { "$ref": "#/$defs/explainSpec" },
         "label": { "type": "string" },
         "spawn_count": {
           "description": "Number of child agents to spawn (for spawn edge mode).",
@@ -427,32 +455,51 @@
     },
     "handoffSpec": {
       "type": "object",
-      "additionalProperties": false,
-      "patternProperties": { "^x-": {} },
+      "additionalProperties": true,
       "properties": {
         "summary_for_next_node": { "type": "string" },
         "expected_output": { "type": "string" },
-        "escalation": { "type": "string" }
+        "escalation": { "type": "string" },
+        "from": { "type": "string" },
+        "context_keys": { "type": "array", "items": { "type": "string" } }
       }
     },
     "explainSpec": {
-      "type": "object",
-      "additionalProperties": false,
-      "patternProperties": { "^x-": {} },
-      "properties": {
-        "why": { "type": "string" },
-        "what": { "type": "string" },
-        "result": { "type": "string" }
-      }
+      "oneOf": [
+        { "type": "string" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "patternProperties": { "^x-": {} },
+          "properties": {
+            "why": { "type": "string" },
+            "what": { "type": "string" },
+            "result": { "type": "string" }
+          }
+        }
+      ]
     },
     "observabilityPolicy": {
       "type": "object",
-      "additionalProperties": false,
-      "patternProperties": { "^x-": {} },
+      "additionalProperties": true,
       "properties": {
         "emit_events": { "type": "boolean", "default": true },
         "trace_id_required": { "type": "boolean", "default": true },
-        "default_log_level": { "type": "string", "enum": ["debug", "info", "warn", "error"], "default": "info" }
+        "default_log_level": { "type": "string", "enum": ["debug", "info", "warn", "error"], "default": "info" },
+        "log_level": { "type": "string" },
+        "tracing": {
+          "oneOf": [
+            { "type": "boolean" },
+            { "type": "object", "additionalProperties": true }
+          ]
+        },
+        "audit_trail": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "boolean" },
+            { "type": "object", "additionalProperties": true }
+          ]
+        }
       }
     },
     "observabilityNode": {
@@ -482,24 +529,33 @@
     },
     "securityNode": {
       "type": "object",
-      "additionalProperties": false,
-      "patternProperties": { "^x-": {} },
+      "additionalProperties": true,
       "properties": {
         "permissions": { "type": "array", "items": { "type": "string" } },
         "secrets": { "type": "array", "items": { "type": "string" } },
-        "risk_level": {
-          "description": "low, medium, high, critical",
-          "type": "string"
+        "credentials": { "type": "array", "items": { "type": "string" } },
+        "risk_level": { "type": "string" },
+        "access_control": { "type": "string" },
+        "data_classification": { "type": "string" },
+        "encryption": { "type": "string" },
+        "model_governance": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "object", "additionalProperties": true }
+          ]
         }
       }
     },
     "approvalGate": {
       "type": "object",
-      "additionalProperties": false,
-      "patternProperties": { "^x-": {} },
+      "additionalProperties": true,
       "properties": {
         "required": { "type": "boolean", "default": false },
-        "approver_role": { "type": "string" }
+        "approver_role": { "type": "string" },
+        "approvers": { "type": "array", "items": { "type": "string" } },
+        "timeout_hours": { "type": "number" },
+        "bypass_allowed": { "type": "boolean" },
+        "mandatory": { "type": "boolean" }
       }
     },
     "evolutionPolicy": {
@@ -526,18 +582,12 @@
     },
     "ledgerPolicy": {
       "type": "object",
-      "additionalProperties": false,
-      "patternProperties": { "^x-": {} },
+      "additionalProperties": true,
       "properties": {
         "enabled": { "type": "boolean", "default": true },
-        "store": {
-          "description": "e.g., sqlite, postgres, s3",
-          "type": "string"
-        },
-        "artifact_store": {
-          "description": "e.g., local_fs, s3, gcs",
-          "type": "string"
-        }
+        "store": { "type": "string" },
+        "storage": { "type": "string" },
+        "artifact_store": { "type": "string" }
       }
     }
   }

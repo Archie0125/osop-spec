@@ -5,7 +5,7 @@
 ### awesome-mcp-servers
 - **Repos:** punkpeye/awesome-mcp-servers, TensorBlock/awesome-mcp-servers, wong2/awesome-mcp-servers
 - **Section:** Workflow & Automation
-- **Entry:** `[OSOP MCP Server](https://github.com/Archie0125/osop-mcp) — 12 tools for workflow validation, conversion (CrewAI/n8n/Airflow/Argo/LangGraph), diff, optimization, and execution via MCP.`
+- **Entry:** `[OSOP MCP Server](https://github.com/Archie0125/osop-mcp) — 5 tools for workflow validation, rendering, reporting, diff, and risk assessment via MCP.`
 - **Status:** Ready to submit
 
 ### awesome-ai-agents
@@ -22,7 +22,7 @@
 
 ### awesome-workflow-engines
 - **Repo:** meirwah/awesome-workflow-engines
-- **Entry:** `[OSOP](https://osop.ai) — Open Standard Operating Procedures. YAML-based workflow definition with 12 node types, 10 edge modes. SDKs for Python and JavaScript, bidirectional converters for Airflow, Argo, n8n.`
+- **Entry:** `[OSOP](https://osop.ai) — Open Standard Operating Procedures. Standard format for AI agent workflows. 4 Core node types, visual editor, MCP server, Python CLI.`
 - **Status:** Ready to submit
 
 ### awesome-n8n

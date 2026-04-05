@@ -1,0 +1,223 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://osop.ai/schema/core/v1.0.0/osop-core.schema.json",
+  "title": "OSOP Core Workflow Schema",
+  "description": "Minimal viable schema for OSOP — the standard format for describing and logging AI agent workflows. Core uses 4 node types and 4 edge modes. For the full schema with 12 node types and 10 edge modes, see osop.schema.json.",
+  "type": "object",
+  "required": ["osop_version", "id", "name", "nodes", "edges"],
+  "additionalProperties": false,
+  "patternProperties": { "^x-": {} },
+  "properties": {
+    "osop_version": {
+      "description": "Protocol version. Core is '1.0'.",
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$"
+    },
+    "id": {
+      "description": "Unique workflow identifier.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "name": {
+      "description": "Human-readable workflow name.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "description": {
+      "description": "What this workflow does and why.",
+      "type": "string"
+    },
+    "version": {
+      "description": "Workflow version (SemVer).",
+      "type": "string"
+    },
+    "tags": {
+      "description": "Classification tags.",
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "owner": {
+      "description": "Team or individual responsible.",
+      "type": "string"
+    },
+    "nodes": {
+      "description": "Workflow nodes — the steps in your process.",
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/node" }
+    },
+    "edges": {
+      "description": "Connections between nodes — the flow of your process.",
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/edge" }
+    }
+  },
+  "$defs": {
+    "node": {
+      "description": "A single step in the workflow.",
+      "type": "object",
+      "required": ["id", "type"],
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "description": "Unique node identifier within this workflow.",
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "description": "Node type. Core supports 4 types: agent (AI/LLM), api (HTTP calls), cli (shell commands), human (manual steps).",
+          "type": "string",
+          "enum": ["agent", "api", "cli", "human"]
+        },
+        "subtype": {
+          "description": "Further classification of the node type.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Human-readable step name.",
+          "type": "string"
+        },
+        "description": {
+          "description": "What this step does.",
+          "type": "string"
+        },
+        "inputs": {
+          "description": "What this node receives.",
+          "type": "array",
+          "items": { "$ref": "#/$defs/ioSpec" }
+        },
+        "outputs": {
+          "description": "What this node produces.",
+          "type": "array",
+          "items": { "$ref": "#/$defs/ioSpec" }
+        },
+        "runtime": {
+          "description": "Execution configuration for this node.",
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "provider": {
+              "description": "AI provider (e.g. anthropic, openai). For agent nodes.",
+              "type": "string"
+            },
+            "model": {
+              "description": "Model identifier (e.g. claude-sonnet-4-20250514). For agent nodes.",
+              "type": "string"
+            },
+            "system_prompt": {
+              "description": "System prompt for the AI. For agent nodes.",
+              "type": "string"
+            },
+            "temperature": {
+              "description": "Sampling temperature. For agent nodes.",
+              "type": "number",
+              "minimum": 0,
+              "maximum": 2
+            },
+            "max_tokens": {
+              "description": "Max output tokens. For agent nodes.",
+              "type": "integer"
+            },
+            "tools": {
+              "description": "MCP tool names available to the agent. For agent nodes.",
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "method": {
+              "description": "HTTP method (GET, POST, etc.). For api nodes.",
+              "type": "string"
+            },
+            "url": {
+              "description": "Endpoint URL. For api nodes.",
+              "type": "string"
+            },
+            "headers": {
+              "description": "HTTP headers. For api nodes.",
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            },
+            "body_template": {
+              "description": "Request body. For api nodes.",
+              "oneOf": [
+                { "type": "string" },
+                { "type": "object" }
+              ]
+            },
+            "command": {
+              "description": "Shell command to execute. For cli nodes.",
+              "type": "string"
+            },
+            "shell": {
+              "description": "Shell interpreter (bash, sh, zsh). For cli nodes.",
+              "type": "string"
+            }
+          }
+        },
+        "retry_policy": {
+          "description": "Retry configuration.",
+          "type": "object",
+          "properties": {
+            "max_retries": { "type": "integer", "minimum": 0, "default": 0 },
+            "strategy": { "type": "string", "enum": ["fixed", "exponential_backoff"], "default": "fixed" },
+            "backoff_sec": { "type": "number", "minimum": 0 }
+          }
+        },
+        "timeout_sec": {
+          "description": "Timeout in seconds.",
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "ioSpec": {
+      "description": "Input/output specification. Can be a simple string name or a detailed object.",
+      "oneOf": [
+        { "type": "string" },
+        {
+          "type": "object",
+          "required": ["name"],
+          "additionalProperties": true,
+          "properties": {
+            "name": { "type": "string" },
+            "description": { "type": "string" },
+            "required": { "type": "boolean", "default": false }
+          }
+        }
+      ]
+    },
+    "edge": {
+      "description": "A connection between two nodes.",
+      "type": "object",
+      "required": ["from", "to"],
+      "additionalProperties": false,
+      "patternProperties": { "^x-": {} },
+      "properties": {
+        "from": {
+          "description": "Source node ID.",
+          "type": "string"
+        },
+        "to": {
+          "description": "Target node ID.",
+          "type": "string"
+        },
+        "mode": {
+          "description": "Edge mode. Core supports 4 modes: sequential (default), conditional, parallel, fallback.",
+          "type": "string",
+          "enum": ["sequential", "conditional", "parallel", "fallback"],
+          "default": "sequential"
+        },
+        "when": {
+          "description": "Condition expression (required for conditional mode).",
+          "type": "string"
+        },
+        "label": {
+          "description": "Human-readable label for this edge.",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

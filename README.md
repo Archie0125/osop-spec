@@ -1,163 +1,140 @@
-# OSOP — Open Standard Operating Process
+# OSOP Specification
 
-[![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Spec Version](https://img.shields.io/badge/spec-v1.0--draft-orange.svg)](./docs/SPEC.md)
-[![Website](https://img.shields.io/badge/web-osop.ai-green.svg)](https://osop.ai)
+**The standard format for describing and logging AI agent workflows.**
 
-**A universal protocol for defining how all processes work — for humans, AI agents, and machines.**
+Two file formats:
 
-OSOP is an open standard for describing any process as a structured, machine-readable, human-friendly YAML/JSON document. Think of it as HTTP for process definitions, or OpenAPI for workflows.
+- **`.osop`** — workflow definition. What should happen, step by step.
+- **`.osoplog`** — execution record. What actually happened. Timestamps, tool calls, AI reasoning.
 
----
+## OSOP Core (Start Here)
 
-## Why OSOP?
+Most users need only **OSOP Core** — 4 node types, 4 edge modes:
 
-Processes today are scattered across Confluence pages, Notion docs, shell scripts, tribal knowledge, and vendor-specific workflow DSLs. Humans can muddle through this fragmentation. AI agents cannot.
+| Node Type | Purpose | Example |
+|---|---|---|
+| `agent` | AI/LLM operations | Claude analyzes code |
+| `api` | HTTP calls | POST to Slack webhook |
+| `cli` | Shell commands | `npm test` |
+| `human` | Manual steps | User reviews changes |
 
-OSOP provides a single, universal format that:
-
-- **Humans** can read and understand immediately
-- **AI agents** can parse, validate, and execute without custom integration
-- **Platforms** can import, export, and interoperate on a shared standard
-- **Organizations** can audit, version, and evolve systematically
-
-Read the full [Manifesto](./docs/manifesto.md) for the vision behind OSOP.
+| Edge Mode | Behavior |
+|---|---|
+| `sequential` | A then B (default) |
+| `conditional` | A then B if condition is true |
+| `parallel` | A and B simultaneously |
+| `fallback` | B only if A fails |
 
 ## Quick Start
 
-Create a file named `deploy.osop.yaml`:
+```bash
+pip install osop
+
+# Validate a workflow
+osop validate workflow.osop.yaml
+
+# Validate against Core schema only
+osop validate --schema core workflow.osop.yaml
+
+# Render as Mermaid diagram
+osop render workflow.osop.yaml
+```
+
+## What a .osop File Looks Like
 
 ```yaml
 osop_version: "1.0"
-id: "deploy-service"
-name: "Deploy Service"
-description: "Build, test, and deploy a service."
+id: "ai-code-review"
+name: "AI Code Review"
+tags: [ai-agent, code-review]
 
 nodes:
-  - id: "build"
-    type: "docker"
-    subtype: "build"
-    name: "Build Image"
+  - id: "fetch-diff"
+    type: "api"
+    name: "Fetch PR Diff"
+    runtime:
+      method: "GET"
+      url: "https://api.github.com/repos/org/repo/pulls/42/files"
 
-  - id: "test"
-    type: "cicd"
-    subtype: "test"
-    name: "Run Tests"
+  - id: "review"
+    type: "agent"
+    name: "AI Reviews Code"
+    runtime:
+      provider: "anthropic"
+      model: "claude-sonnet-4-20250514"
 
   - id: "approve"
     type: "human"
-    subtype: "approval"
-    name: "Production Approval"
-
-  - id: "deploy"
-    type: "infra"
-    subtype: "k8s"
-    name: "Deploy to Kubernetes"
+    name: "Developer Reviews"
 
 edges:
-  - from: "build"
-    to: "test"
-  - from: "test"
+  - from: "fetch-diff"
+    to: "review"
+  - from: "review"
     to: "approve"
-  - from: "approve"
-    to: "deploy"
-    mode: "conditional"
-    when: "outputs.approve.decision == 'approved'"
 ```
 
-Validate it:
+## What a .osoplog File Looks Like
 
-```bash
-npx osop validate deploy.osop.yaml
+```yaml
+osoplog_version: "1.0"
+run_id: "a1b2c3d4"
+workflow_id: "ai-code-review"
+status: "COMPLETED"
+started_at: "2026-04-04T10:00:00Z"
+ended_at: "2026-04-04T10:05:32Z"
+duration_ms: 332000
+
+runtime:
+  agent: "claude-code"
+  model: "claude-opus-4-6"
+
+node_records:
+  - node_id: "fetch-diff"
+    status: "COMPLETED"
+    duration_ms: 1200
+  - node_id: "review"
+    status: "COMPLETED"
+    duration_ms: 28000
+    ai_metadata:
+      model: "claude-sonnet-4-20250514"
+      prompt_tokens: 3200
+      completion_tokens: 850
+
+result_summary: "AI reviewed PR #42: 3 issues found."
 ```
 
-## Key Concepts
+## Ecosystem
 
-| Concept | Description |
-|---|---|
-| **Node** | A single step in a process (build, test, approve, deploy) |
-| **Edge** | A connection between nodes defining execution flow |
-| **12 Node Types** | `human`, `agent`, `api`, `cli`, `db`, `git`, `docker`, `cicd`, `mcp`, `system`, `infra`, `data` |
-| **8 Edge Modes** | `sequential`, `conditional`, `parallel`, `loop`, `event`, `fallback`, `error`, `timeout` |
-| **4 Conformance Levels** | Descriptive, Validatable, Executable, Observable |
-| **Expressions** | CEL (Common Expression Language) for conditions |
+| Tool | What |
+|------|------|
+| [osop](https://github.com/Archie0125/osop) | Python CLI — validate, render, run, diff |
+| [osop-mcp](https://github.com/Archie0125/osop-mcp) | MCP server (5 tools for Claude/Cursor/Windsurf) |
+| [osop-editor](https://osop-editor.vercel.app) | Visual editor with risk analysis |
+| [osop-examples](https://github.com/Archie0125/osop-examples) | Workflow templates |
+| [osop-vscode](https://github.com/Archie0125/osop-vscode) | VS Code extension |
 
 ## Documentation
 
 | Document | Description |
-|---|---|
-| [Manifesto](./docs/manifesto.md) | Vision, principles, and motivation |
-| [Protocol Specification](./docs/SPEC.md) | Complete protocol structure and rules |
-| [Node Types](./docs/node-types.md) | All 12 node types with subtypes and examples |
-| [Conformance Levels](./docs/conformance-levels.md) | Levels 0-3: Descriptive to Observable |
-| [Expression Language](./docs/expression-language.md) | CEL specification for `when` conditions |
-| [Versioning](./docs/versioning.md) | SemVer policy and RFC process |
-| [Agent Runtime Binding](./docs/agent-runtime-binding.md) | How AI agents execute .osop files and produce .osoplog records |
-| [Execution Reports](./docs/execution-report.md) | .osoplog to HTML/text report generation spec |
-| [Glossary](./docs/glossary.md) | Definitions of key terms |
+|----------|-------------|
+| [OSOP Core](./docs/OSOP-CORE.md) | Core spec — 4 types, 4 modes (start here) |
+| [Full Spec](./docs/SPEC.md) | Complete protocol (12 types, 10 modes) |
+| [Node Types](./docs/node-types.md) | All types with examples |
+| [Conformance](./docs/conformance-levels.md) | L0–L3 adoption levels |
 
-## What OSOP Covers
+## Schema Files
 
-OSOP is not limited to DevOps. It describes **any** structured process:
-
-- **CI/CD pipelines** — build, test, deploy, rollback
-- **AI agent workflows** — LLM chains, RAG pipelines, multi-agent orchestration
-- **Data pipelines** — ETL/ELT, validation, transformation
-- **Infrastructure** — provisioning, scaling, disaster recovery
-- **Business processes** — approvals, onboarding, compliance
-- **Incident response** — detection, triage, mitigation, postmortem
-
-## File Format
-
-| Property | Value |
-|---|---|
-| Extensions | `.osop.yaml`, `.osop.yml`, `.osop.json` |
-| Serialization | YAML 1.2 (canonical) or JSON |
-| Encoding | UTF-8 |
-
-## Project Structure
-
-```
-osop-spec/
-  README.md              # This file
-  LICENSE                 # Apache License 2.0
-  CONTRIBUTING.md         # How to contribute
-  CITATION.cff            # Academic citation metadata
-  docs/
-    manifesto.md          # Vision and principles
-    SPEC.md               # Protocol specification
-    node-types.md         # 12 node types reference
-    conformance-levels.md # Levels 0-3
-    expression-language.md # CEL specification
-    versioning.md         # Versioning and RFC process
-    agent-runtime-binding.md # How agents execute .osop and produce .osoplog
-    execution-report.md   # .osoplog to report generation spec
-    glossary.md           # Key terms
-```
+| File | Purpose |
+|------|---------|
+| `schema/osop-core.schema.json` | Core schema (recommended) |
+| `schema/osop.schema.json` | Full schema (all types) |
+| `schema/osoplog.schema.json` | Execution log schema |
 
 ## Contributing
 
-We welcome contributions of all kinds. See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on:
-
-- Reporting issues
-- Proposing protocol changes via RFC
-- Improving documentation
-- Building tooling and adapters
-
-## Community
-
-- **Website**: [osop.ai](https://osop.ai)
-- **GitHub**: [github.com/osop](https://github.com/osop)
-- **Discussions**: [github.com/osop/spec/discussions](https://github.com/osop/spec/discussions)
+See [CONTRIBUTING.md](./CONTRIBUTING.md). We welcome protocol proposals via RFC, new examples, and documentation improvements.
 
 ## License
 
-OSOP is licensed under the [Apache License 2.0](./LICENSE).
-
-## Citation
-
-If you reference OSOP in academic work, see [CITATION.cff](./CITATION.cff) for citation metadata.
-
----
-
-*OSOP is the universal protocol for process definitions. Read the [manifesto](./docs/manifesto.md). Try the [spec](./docs/SPEC.md). Join the [community](https://github.com/osop).*
+Apache License 2.0

@@ -1,0 +1,311 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://osop.ai/schema/v1.0/osoplog.schema.json",
+  "title": "OSOP Execution Log Schema",
+  "description": "Validates .osoplog.yaml execution log files that record the runtime behavior of an OSOP workflow.",
+  "type": "object",
+  "required": [
+    "osoplog_version",
+    "run_id",
+    "workflow_id",
+    "status",
+    "started_at",
+    "ended_at",
+    "duration_ms"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "osoplog_version": {
+      "description": "Version of the osoplog format.",
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$"
+    },
+    "run_id": {
+      "description": "Unique identifier for this execution run.",
+      "type": "string",
+      "minLength": 1
+    },
+    "workflow_id": {
+      "description": "Identifier of the workflow definition (.osop) that was executed.",
+      "type": "string",
+      "minLength": 1
+    },
+    "mode": {
+      "description": "Execution mode.",
+      "type": "string",
+      "enum": ["live", "dry_run"]
+    },
+    "status": {
+      "description": "Overall execution status.",
+      "type": "string",
+      "enum": ["COMPLETED", "FAILED", "TIMEOUT", "COST_LIMIT", "BLOCKED", "DRY_RUN"]
+    },
+    "trigger": {
+      "description": "What triggered this execution.",
+      "$ref": "#/$defs/trigger"
+    },
+    "started_at": {
+      "description": "ISO 8601 timestamp when execution started.",
+      "type": "string",
+      "format": "date-time"
+    },
+    "ended_at": {
+      "description": "ISO 8601 timestamp when execution ended.",
+      "type": "string",
+      "format": "date-time"
+    },
+    "duration_ms": {
+      "description": "Total execution duration in milliseconds.",
+      "type": "integer",
+      "minimum": 0
+    },
+    "runtime": {
+      "description": "Runtime environment information.",
+      "$ref": "#/$defs/runtime"
+    },
+    "node_records": {
+      "description": "Per-node execution records.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/nodeRecord"
+      }
+    },
+    "result_summary": {
+      "description": "Human-readable summary of what was accomplished.",
+      "type": "string"
+    },
+    "cost": {
+      "description": "Cost information for the entire execution.",
+      "$ref": "#/$defs/cost"
+    }
+  },
+  "$defs": {
+    "trigger": {
+      "description": "Trigger that initiated the workflow execution.",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "type": {
+          "description": "How the workflow was triggered.",
+          "type": "string",
+          "enum": ["manual", "cron", "webhook", "git_push", "event", "api"]
+        },
+        "actor": {
+          "description": "Who or what triggered the execution.",
+          "type": "string"
+        },
+        "timestamp": {
+          "description": "ISO 8601 timestamp when the trigger occurred.",
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "runtime": {
+      "description": "Information about the execution environment.",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "agent": {
+          "description": "Agent or system that executed the workflow (e.g. claude-code, github-actions).",
+          "type": "string"
+        },
+        "model": {
+          "description": "AI model used, if applicable (e.g. claude-opus-4-6).",
+          "type": "string"
+        }
+      }
+    },
+    "nodeRecord": {
+      "description": "Execution record for a single workflow node.",
+      "type": "object",
+      "required": ["node_id"],
+      "additionalProperties": true,
+      "properties": {
+        "node_id": {
+          "description": "Identifier matching a node in the workflow definition.",
+          "type": "string",
+          "minLength": 1
+        },
+        "node_type": {
+          "description": "Type of the node (mirrors the node type from the .osop definition).",
+          "type": "string",
+          "enum": ["human", "agent", "api", "cli", "db", "git", "docker", "cicd", "mcp", "system", "infra", "data"]
+        },
+        "attempt": {
+          "description": "Attempt number (1-based). Increments on retry.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "status": {
+          "description": "Execution status for this node.",
+          "type": "string",
+          "enum": ["COMPLETED", "FAILED", "SKIPPED", "DRY_RUN", "TIMEOUT", "ERROR"]
+        },
+        "started_at": {
+          "description": "ISO 8601 timestamp when node execution started.",
+          "type": "string",
+          "format": "date-time"
+        },
+        "ended_at": {
+          "description": "ISO 8601 timestamp when node execution ended.",
+          "type": "string",
+          "format": "date-time"
+        },
+        "duration_ms": {
+          "description": "Node execution duration in milliseconds.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "inputs": {
+          "description": "Inputs received by the node.",
+          "type": "object",
+          "additionalProperties": true
+        },
+        "outputs": {
+          "description": "Outputs produced by the node.",
+          "type": "object",
+          "additionalProperties": true
+        },
+        "ai_metadata": {
+          "description": "AI/LLM-specific execution metadata.",
+          "$ref": "#/$defs/aiMetadata"
+        },
+        "tools_used": {
+          "description": "Tools invoked during node execution.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/toolUsage"
+          }
+        },
+        "error": {
+          "description": "Error message if the node failed.",
+          "type": "string"
+        },
+        "reason": {
+          "description": "Reason for the node status (e.g. why it was skipped).",
+          "type": "string"
+        },
+        "parent_id": {
+          "description": "ID of the parent node that spawned this sub-agent.",
+          "type": "string"
+        },
+        "spawn_index": {
+          "description": "Index of this sub-agent among siblings spawned by the same parent.",
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "aiMetadata": {
+      "description": "Metadata for AI/LLM node executions.",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "model": {
+          "description": "Model identifier used for this node.",
+          "type": "string"
+        },
+        "provider": {
+          "description": "AI provider (e.g. anthropic, openai).",
+          "type": "string"
+        },
+        "prompt_tokens": {
+          "description": "Number of prompt/input tokens consumed.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "completion_tokens": {
+          "description": "Number of completion/output tokens generated.",
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "toolUsage": {
+      "description": "Record of a tool used during node execution.",
+      "type": "object",
+      "required": ["tool"],
+      "additionalProperties": true,
+      "properties": {
+        "tool": {
+          "description": "Name of the tool (e.g. Read, Edit, Bash, Write, Grep, Glob).",
+          "type": "string",
+          "minLength": 1
+        },
+        "calls": {
+          "description": "Number of times the tool was invoked.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "details": {
+          "description": "Detailed per-invocation records.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/toolDetail"
+          }
+        }
+      }
+    },
+    "toolDetail": {
+      "description": "Detail of a single tool invocation.",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "file": {
+          "description": "File path involved in the tool call.",
+          "type": "string"
+        },
+        "lines_changed": {
+          "description": "Number of lines changed (for Edit/Write tools).",
+          "type": "integer",
+          "minimum": 0
+        },
+        "command": {
+          "description": "Command executed (for Bash/CLI tools).",
+          "type": "string"
+        },
+        "result": {
+          "description": "Brief description of the tool call result.",
+          "type": "string"
+        }
+      }
+    },
+    "cost": {
+      "description": "Execution cost information.",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "total_usd": {
+          "description": "Total cost in US dollars.",
+          "type": "number",
+          "minimum": 0
+        },
+        "breakdown": {
+          "description": "Per-node cost breakdown.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/costBreakdownEntry"
+          }
+        }
+      }
+    },
+    "costBreakdownEntry": {
+      "description": "Cost attributed to a single node.",
+      "type": "object",
+      "required": ["node_id", "cost_usd"],
+      "additionalProperties": true,
+      "properties": {
+        "node_id": {
+          "description": "Node this cost is attributed to.",
+          "type": "string"
+        },
+        "cost_usd": {
+          "description": "Cost in US dollars for this node.",
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}
