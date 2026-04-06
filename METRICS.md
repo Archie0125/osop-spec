@@ -1,6 +1,6 @@
 # OSOP Ecosystem Metrics
 
-Last updated: 2026-04-05 08:40 UTC
+Last updated: 2026-04-06 09:07 UTC
 
 ## Repositories
 
@@ -15,7 +15,7 @@ Total OSOP repos: **0**
 | [osop-canva](https://github.com/Archie0125/osop-canva) | 0 | TypeScript |
 | [osop-crewai](https://github.com/Archie0125/osop-crewai) | 0 | Python |
 | [osop-editor](https://github.com/Archie0125/osop-editor) | 0 | TypeScript |
-| [osop-examples](https://github.com/Archie0125/osop-examples) | 0 | - |
+| [osop-examples](https://github.com/Archie0125/osop-examples) | 0 | Python |
 | [osop-figjam](https://github.com/Archie0125/osop-figjam) | 0 | TypeScript |
 | [osop-interop](https://github.com/Archie0125/osop-interop) | 0 | Python |
 | [osop-marketplace](https://github.com/Archie0125/osop-marketplace) | 0 | - |
@@ -28,7 +28,7 @@ Total OSOP repos: **0**
 
 ## Pull Requests
 
-- Open PRs: **30**
+- Open PRs: **29**
 - Merged PRs: **?**
 
 ### Open PRs
@@ -58,7 +58,6 @@ Total OSOP repos: **0**
 | FoundationAgents/MetaGPT | #1995 | Add OSOP workflow example — portable format for MetaGPT role orchestration |
 | crewAIInc/crewAI-examples | #361 | Add OSOP interop — portable workflow format for CrewAI crews |
 | e2b-dev/awesome-ai-agents | #648 | Add OSOP — open standard for AI agent workflows |
-| meirwah/awesome-workflow-engines | #201 | Add OSOP — YAML workflow definition standard with format converters |
 | punkpeye/awesome-mcp-servers | #3983 | Add OSOP MCP Server — AI agent workflow validation and risk analysis |
 | detailobsessed/awesome-windsurf | #288 | feat: add OSOP session logging prompt |
 | continuedev/awesome-rules | #12 | Add OSOP session logging rule |
