@@ -1,6 +1,6 @@
 # OSOP Ecosystem Metrics
 
-Last updated: 2026-04-06 09:07 UTC
+Last updated: 2026-04-07 09:00 UTC
 
 ## Repositories
 
@@ -28,7 +28,7 @@ Total OSOP repos: **0**
 
 ## Pull Requests
 
-- Open PRs: **29**
+- Open PRs: **28**
 - Merged PRs: **?**
 
 ### Open PRs
@@ -50,7 +50,6 @@ Total OSOP repos: **0**
 | akuity/awesome-argo | #101 | Add osop-interop — Argo Workflows to OSOP converter |
 | restyler/awesome-n8n | #28 | Add n8n-nodes-osop — workflow import/export/validation nodes |
 | agno-agi/agno | #7290 | Add OSOP workflow example — research agent in portable format |
-| PrefectHQ/prefect | #21395 | Add OSOP workflow example — data pipeline in portable format |
 | openai/swarm | #76 | Add OSOP workflow example — agent handoff pattern in portable format |
 | microsoft/semantic-kernel | #13727 | Add OSOP workflow example — automated code review pipeline |
 | ag2ai/ag2 | #2540 | Add OSOP workflow example — multi-agent debate in portable format |
