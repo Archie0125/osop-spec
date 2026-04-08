@@ -1,6 +1,6 @@
 # OSOP Ecosystem Metrics
 
-Last updated: 2026-04-07 09:00 UTC
+Last updated: 2026-04-08 08:59 UTC
 
 ## Repositories
 
@@ -28,7 +28,7 @@ Total OSOP repos: **0**
 
 ## Pull Requests
 
-- Open PRs: **28**
+- Open PRs: **27**
 - Merged PRs: **?**
 
 ### Open PRs
@@ -57,7 +57,6 @@ Total OSOP repos: **0**
 | FoundationAgents/MetaGPT | #1995 | Add OSOP workflow example — portable format for MetaGPT role orchestration |
 | crewAIInc/crewAI-examples | #361 | Add OSOP interop — portable workflow format for CrewAI crews |
 | e2b-dev/awesome-ai-agents | #648 | Add OSOP — open standard for AI agent workflows |
-| punkpeye/awesome-mcp-servers | #3983 | Add OSOP MCP Server — AI agent workflow validation and risk analysis |
 | detailobsessed/awesome-windsurf | #288 | feat: add OSOP session logging prompt |
 | continuedev/awesome-rules | #12 | Add OSOP session logging rule |
 | PatrickJS/awesome-cursorrules | #219 | Add OSOP session logging rule |
