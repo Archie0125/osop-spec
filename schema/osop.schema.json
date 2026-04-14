@@ -150,7 +150,7 @@
     },
     "node": {
       "type": "object",
-      "required": ["id", "type"],
+      "required": ["id", "type", "purpose"],
       "additionalProperties": true,
       "properties": {
         "id": { "type": "string", "minLength": 1 },

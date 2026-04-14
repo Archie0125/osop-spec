@@ -32,7 +32,7 @@ Conformance levels are **not declared** in the OSOP file. They are **inferred** 
 | `id` | Unique process identifier |
 | `name` | Human-readable name |
 | `nodes[].id` | Unique identifier for each node |
-| `nodes[].type` | One of the 12 node types |
+| `nodes[].type` | One of the 4 Core node types (agent, api, cli, human) + 8 Extended types |
 | `nodes[].name` | Human-readable node name |
 | `edges[].from` | Source node ID |
 | `edges[].to` | Target node ID |

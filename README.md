@@ -37,7 +37,7 @@ osop validate workflow.osop.yaml
 osop validate --schema core workflow.osop.yaml
 
 # Render as Mermaid diagram
-osop render workflow.osop.yaml
+osop validate workflow.osop.yaml
 ```
 
 ## What a .osop File Looks Like
@@ -109,7 +109,7 @@ result_summary: "AI reviewed PR #42: 3 issues found."
 | Tool | What |
 |------|------|
 | [osop](https://github.com/Archie0125/osop) | Python CLI — validate, render, run, diff |
-| [osop-mcp](https://github.com/Archie0125/osop-mcp) | MCP server (5 tools for Claude/Cursor/Windsurf) |
+| [osop-mcp](https://github.com/Archie0125/osop-mcp) | MCP server (4 tools for Claude/Cursor/Windsurf) |
 | [osop-editor](https://osop-editor.vercel.app) | Visual editor with risk analysis |
 | [osop-examples](https://github.com/Archie0125/osop-examples) | Workflow templates |
 | [osop-vscode](https://github.com/Archie0125/osop-vscode) | VS Code extension |

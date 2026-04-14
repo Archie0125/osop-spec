@@ -141,7 +141,7 @@ A node represents a single step, actor, or operation in a process.
 ```yaml
 nodes:
   - id: "run-tests"           # Required. Unique within workflow.
-    type: "cli"               # Required. One of 12 node types.
+    type: "cli"               # Required. One of 4 Core node types (agent, api, cli, human) + 8 Extended types.
     subtype: "script"         # Optional. Type-specific subtype.
     name: "Run Test Suite"    # Required. Human-readable name.
     description: ""           # Optional.

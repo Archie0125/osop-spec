@@ -6,7 +6,7 @@
 
 ## Overview
 
-OSOP defines 12 node types that cover the full spectrum of process participants — from human decision-makers to infrastructure automation. Each node type has a set of subtypes that provide further classification and may influence runtime behavior.
+OSOP defines 4 Core node types (agent, api, cli, human) + 8 Extended types that cover the full spectrum of process participants — from human decision-makers to infrastructure automation. Each node type has a set of subtypes that provide further classification and may influence runtime behavior.
 
 Every node MUST specify a `type`. The `subtype` field is OPTIONAL but RECOMMENDED for executable workflows (Level 2+).
 

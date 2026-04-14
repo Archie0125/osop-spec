@@ -51,7 +51,7 @@ A sequential listing of every node execution record:
 | Field | Description |
 |-------|-------------|
 | Node ID | Identifier of the executed node |
-| Node type | One of the 12 OSOP node types |
+| Node type | One of the OSOP node types (Core: agent, api, cli, human) |
 | Status | `COMPLETED`, `FAILED`, `SKIPPED`, `TIMED_OUT` |
 | Attempt | Attempt number (shows retries) |
 | Duration | Wall-clock time for this node |

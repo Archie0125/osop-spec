@@ -68,7 +68,7 @@ The data payload passed along an edge from one node to the next. Messages are va
 
 ### Node
 
-A single step, actor, or operation in an OSOP workflow. Every node has an `id`, `type`, and `name`. Nodes are the "boxes" in a process graph. OSOP defines 12 node types. See [node-types.md](./node-types.md).
+A single step, actor, or operation in an OSOP workflow. Every node has an `id`, `type`, and `name`. Nodes are the "boxes" in a process graph. OSOP defines 4 Core node types (agent, api, cli, human) + 8 Extended types. See [node-types.md](./node-types.md).
 
 ### Node Type
 

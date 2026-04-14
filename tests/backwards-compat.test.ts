@@ -238,12 +238,16 @@ describe("Backwards compatibility - example files", () => {
       }
     });
 
-    it("every example has at least one edge", () => {
+    it("every multi-node example has at least one edge", () => {
+      // Single-node workflows (e.g. atomic API SOPs) legitimately have no edges.
+      // Only multi-node workflows must declare edges to be meaningful DAGs.
       const allFiles = findOsopFiles(EXAMPLES_DIR);
       for (const file of allFiles) {
         const wf = loadYaml(file);
+        const nodes = (wf.nodes as unknown[]) ?? [];
+        if (nodes.length <= 1) continue;
         const edges = wf.edges as unknown[];
-        expect(edges).toBeDefined();
+        expect(edges, `expected edges in ${file}`).toBeDefined();
         expect(Array.isArray(edges)).toBe(true);
         expect(edges.length).toBeGreaterThan(0);
       }
@@ -300,7 +304,7 @@ describe("Backwards compatibility - example files", () => {
       const allFiles = findOsopFiles(EXAMPLES_DIR);
       for (const file of allFiles) {
         const wf = loadYaml(file);
-        const edges = wf.edges as Record<string, unknown>[];
+        const edges = (wf.edges as Record<string, unknown>[]) ?? [];
         for (const edge of edges) {
           expect(edge).toHaveProperty("from");
           expect(edge).toHaveProperty("to");
