@@ -1,6 +1,6 @@
 # OSOP Ecosystem Metrics
 
-Last updated: 2026-04-16 09:17 UTC
+Last updated: 2026-04-17 09:15 UTC
 
 ## Repositories
 
@@ -28,14 +28,13 @@ Total OSOP repos: **0**
 
 ## Pull Requests
 
-- Open PRs: **29**
+- Open PRs: **28**
 - Merged PRs: **?**
 
 ### Open PRs
 
 | Repo | PR | Title |
 |------|-----|-------|
-| Archie0125/osop | #3 | feat: add LiveLog SDK for host-executed workflows (closes #1 part A) |
 | aishwaryanr/awesome-generative-ai-guide | #98 | Add AEO Scanner to AI Tools list |
 | best-of-ai/awesome-ai-seo | #27 | Add AEO Scanner to SEO Auditing section |
 | serpapi/awesome-seo-tools | #156 | Add AEO Scanner to Technical SEO section |
