@@ -88,7 +88,7 @@
         "type": {
           "description": "How the workflow was triggered.",
           "type": "string",
-          "enum": ["manual", "cron", "webhook", "git_push", "event", "api"]
+          "enum": ["manual", "cron", "webhook", "git_push", "event", "api", "replay", "transcript_capture"]
         },
         "actor": {
           "description": "Who or what triggered the execution.",
@@ -98,6 +98,10 @@
           "description": "ISO 8601 timestamp when the trigger occurred.",
           "type": "string",
           "format": "date-time"
+        },
+        "source": {
+          "description": "Free-form source label (e.g. 'web-gui', 'replay', 'github-actions').",
+          "type": "string"
         }
       }
     },
@@ -107,11 +111,19 @@
       "additionalProperties": true,
       "properties": {
         "agent": {
-          "description": "Agent or system that executed the workflow (e.g. claude-code, github-actions).",
+          "description": "Agent or system that executed the workflow (e.g. claude-code, github-actions, osop-replay).",
           "type": "string"
         },
         "model": {
           "description": "AI model used, if applicable (e.g. claude-opus-4-6).",
+          "type": "string"
+        },
+        "session_id": {
+          "description": "Optional canonical session id for the run (e.g. Claude Code session UUID). Set by transcript-derived logs so consumers can correlate across runs.",
+          "type": "string"
+        },
+        "source": {
+          "description": "Origin of the log file. Canonical values: 'executor' (osop record), 'live-log' (LiveLog SDK + osop replay), 'transcript-parser' (osop log).",
           "type": "string"
         }
       }
@@ -138,9 +150,9 @@
           "minimum": 1
         },
         "status": {
-          "description": "Execution status for this node.",
+          "description": "Execution status for this node. BLOCKED means the node was not reached because an upstream dependency failed.",
           "type": "string",
-          "enum": ["COMPLETED", "FAILED", "SKIPPED", "DRY_RUN", "TIMEOUT", "ERROR"]
+          "enum": ["COMPLETED", "FAILED", "SKIPPED", "DRY_RUN", "TIMEOUT", "ERROR", "BLOCKED", "RUNNING"]
         },
         "started_at": {
           "description": "ISO 8601 timestamp when node execution started.",
@@ -172,10 +184,17 @@
           "$ref": "#/$defs/aiMetadata"
         },
         "tools_used": {
-          "description": "Tools invoked during node execution.",
+          "description": "Aggregate tool usage for this node (counts only). Use tool_calls for per-invocation detail.",
           "type": "array",
           "items": {
             "$ref": "#/$defs/toolUsage"
+          }
+        },
+        "tool_calls": {
+          "description": "Per-invocation tool call records. Emitted by the transcript-parser source where every individual tool call has its own real timestamp, input, and output. Optional; tools_used is the lightweight aggregate.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/toolCall"
           }
         },
         "error": {
@@ -223,7 +242,7 @@
       }
     },
     "toolUsage": {
-      "description": "Record of a tool used during node execution.",
+      "description": "Aggregate count of a tool used during node execution.",
       "type": "object",
       "required": ["tool"],
       "additionalProperties": true,
@@ -244,6 +263,52 @@
           "items": {
             "$ref": "#/$defs/toolDetail"
           }
+        }
+      }
+    },
+    "toolCall": {
+      "description": "Single tool invocation with real timestamps and i/o. Used by transcript-parser to preserve per-call evidence.",
+      "type": "object",
+      "required": ["tool"],
+      "additionalProperties": true,
+      "properties": {
+        "tool": {
+          "description": "Name of the tool invoked.",
+          "type": "string",
+          "minLength": 1
+        },
+        "started_at": {
+          "description": "ISO 8601 timestamp when the tool was invoked.",
+          "type": "string",
+          "format": "date-time"
+        },
+        "ended_at": {
+          "description": "ISO 8601 timestamp when the tool returned.",
+          "type": "string",
+          "format": "date-time"
+        },
+        "duration_ms": {
+          "description": "Tool call duration in milliseconds.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "status": {
+          "description": "Outcome of this individual tool call.",
+          "type": "string",
+          "enum": ["COMPLETED", "FAILED", "TIMEOUT"]
+        },
+        "input": {
+          "description": "Input arguments passed to the tool (may be truncated for large strings).",
+          "type": "object",
+          "additionalProperties": true
+        },
+        "output": {
+          "description": "Tool result, truncated for readability.",
+          "type": "string"
+        },
+        "is_error": {
+          "description": "True if the tool returned an error.",
+          "type": "boolean"
         }
       }
     },
