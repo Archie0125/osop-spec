@@ -1,6 +1,6 @@
 # OSOP Ecosystem Metrics
 
-Last updated: 2026-04-19 08:52 UTC
+Last updated: 2026-04-20 09:56 UTC
 
 ## Repositories
 
@@ -28,14 +28,13 @@ Total OSOP repos: **0**
 
 ## Pull Requests
 
-- Open PRs: **27**
+- Open PRs: **26**
 - Merged PRs: **?**
 
 ### Open PRs
 
 | Repo | PR | Title |
 |------|-----|-------|
-| aishwaryanr/awesome-generative-ai-guide | #98 | Add AEO Scanner to AI Tools list |
 | best-of-ai/awesome-ai-seo | #27 | Add AEO Scanner to SEO Auditing section |
 | serpapi/awesome-seo-tools | #156 | Add AEO Scanner to Technical SEO section |
 | filipecalegario/awesome-generative-ai | #433 | Add AEO Scanner to Online Tools and Applications |
