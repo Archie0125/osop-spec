@@ -74,7 +74,7 @@ nodes:
       secrets: [OPENAI_API_KEY]
       risk_level: medium
   - id: validate_metrics
-    type: docker
+    type: cli
     purpose: Validate schema and business rules in reproducible Python environment
     runtime:
       image: python:3.11
@@ -90,7 +90,7 @@ nodes:
     security:
       risk_level: medium
   - id: save_db
-    type: db
+    type: api
     purpose: Write validated metrics to PostgreSQL for dashboard consumption
     runtime:
       engine: postgres
