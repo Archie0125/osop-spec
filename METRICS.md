@@ -1,6 +1,6 @@
 # OSOP Ecosystem Metrics
 
-Last updated: 2026-04-25 08:50 UTC
+Last updated: 2026-04-26 08:58 UTC
 
 ## Repositories
 
@@ -28,7 +28,7 @@ Total OSOP repos: **0**
 
 ## Pull Requests
 
-- Open PRs: **26**
+- Open PRs: **25**
 - Merged PRs: **?**
 
 ### Open PRs
@@ -59,7 +59,6 @@ Total OSOP repos: **0**
 | detailobsessed/awesome-windsurf | #288 | feat: add OSOP session logging prompt |
 | continuedev/awesome-rules | #12 | Add OSOP session logging rule |
 | PatrickJS/awesome-cursorrules | #219 | Add OSOP session logging rule |
-| openclaw/openclaw | #58974 | docs: add OSOP workflow skills to community plugins |
 | anthropics/knowledge-work-plugins | #159 | Add OSOP plugin to partner-built |
 
 ---
