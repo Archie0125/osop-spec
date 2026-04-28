@@ -1,6 +1,6 @@
 # OSOP Ecosystem Metrics
 
-Last updated: 2026-04-27 10:12 UTC
+Last updated: 2026-04-28 10:11 UTC
 
 ## Repositories
 
@@ -28,22 +28,13 @@ Total OSOP repos: **0**
 
 ## Pull Requests
 
-- Open PRs: **25**
+- Open PRs: **16**
 - Merged PRs: **?**
 
 ### Open PRs
 
 | Repo | PR | Title |
 |------|-----|-------|
-| best-of-ai/awesome-ai-seo | #27 | Add AEO Scanner to SEO Auditing section |
-| serpapi/awesome-seo-tools | #156 | Add AEO Scanner to Technical SEO section |
-| filipecalegario/awesome-generative-ai | #433 | Add AEO Scanner to Online Tools and Applications |
-| humanloop/awesome-chatgpt | #225 | Add AEO Scanner to Applications |
-| steven2358/awesome-generative-ai | #537 | Add AEO Scanner to Search engines section |
-| luka2chat/awesome-geo | #5 | Add AEO Scanner to Content Optimization Tools |
-| krish-adi/llmstxt-site | #220 | Add AEO Scanner llms.txt |
-| mahseema/awesome-ai-tools | #999 | Add AEO Scanner - Free AEO/GEO Website Scoring Tool |
-| bmpi-dev/awesome-seo | #46 | Add AEO Scanner - Free AEO/GEO Scoring Tool |
 | windmill-labs/windmill | #8670 | Add OSOP workflow example — API data sync in portable format |
 | akuity/awesome-argo | #101 | Add osop-interop — Argo Workflows to OSOP converter |
 | restyler/awesome-n8n | #28 | Add n8n-nodes-osop — workflow import/export/validation nodes |
