@@ -1,37 +1,40 @@
 # OSOP Roadmap
 
-*Updated every Monday. Last update: 2026-05-04 (Week 1).*
+*Updated every Monday. Last update: 2026-05-11 (Week 2).*
 
 ---
 
-## This Week: May 4–10, 2026
+## This Week: May 11–17, 2026
 
-### Landscape Changes (Week of Apr 27–May 3)
+### Landscape Changes (Week of May 4–10)
 
-- **A2A v1.0 in production at Azure AI Foundry and Amazon Bedrock AgentCore** — A2A went from 150 production orgs to hyperscaler platform integration in a single week. Every enterprise team building on Azure or AWS now encounters A2A natively. 22,000+ GitHub stars.
-- **MCP 2026 Roadmap published** — Officially flags audit trails, SSO auth, and configuration portability as the top enterprise gaps in production MCP deployments. Direct external validation of `.osoplog`'s purpose.
-- **MCP donated to AAIF / Linux Foundation** — Co-founded by Anthropic, OpenAI, Block; Google, Microsoft, AWS, Cloudflare, Bloomberg as members. AAIF stack: MCP (tools) + A2A (routing) + [OSOP — not yet submitted].
-- **Agent Skills crossed 4-tool adoption** — OpenClaw (247K+ stars), Codex CLI, Cursor, Gemini CLI adopted the open Agent Skills standard in one week. Fastest cross-tool protocol adoption since MCP's initial wave.
-- **Agentic Commerce Protocol (ACP) launched** — OpenAI + Stripe co-launched an open standard for AI agent commerce interactions. New vertical for OSOP workflow examples.
-- **LangGraph v1.0 GA with Open Agent Protocol (OAP)** — Cross-framework execution protocol. OSOP sits above OAP as the workflow definition layer.
-- **Microsoft Agent Framework 1.0 confirmed GA** — Native MCP + A2A + OpenAPI support.
-- **Red Hat MCP server for RHEL developer preview** — Enterprise Linux enters the MCP ecosystem.
-- **Arazzo 1.1 with AsyncAPI support imminent** — Will trigger "Arazzo or OSOP?" objections at scale across API-centric teams.
-- **78% of enterprise AI teams have MCP-backed agents in production** (April 2026 survey); 5,800+ MCP servers, 97M monthly SDK downloads.
+- **AWS MCP Server GA (May 6) + SAP MCP Server GA in Bedrock AgentCore** — AWS verticalizing MCP into enterprise software verticals. Each vertical MCP server (Salesforce, ServiceNow, Workday will follow) executes multi-step business workflows with no portable definition format. Proprietary formats are forming now.
+- **AWS Agent Toolkit GA** — MCP + Agent Skills + Plugins bundled into a unified developer framework. No portable workflow definition format included.
+- **AG-UI protocol emerges as the third layer in the agent stack** — The agentic stack is now described as MCP (tools) + A2A (routing) + AG-UI (UI streaming). OSOP's positioning table must be updated. `.osoplog` `ui_events` field proposal closes the observability gap at this layer.
+- **AI Agent Protocol Ecosystem Map 2026 published without OSOP** — digitalapplied.com and others are publishing protocol stack diagrams. OSOP is absent from all of them. AAIF submission is the gate to map inclusion.
+- **AAIF governance confirmed: MCP + A2A under Linux Foundation, 146 member orgs** — Anthropic, OpenAI, Google, Microsoft, AWS, Cloudflare, Bloomberg. The workflow definition + execution audit seat is structurally named as vacant in AAIF's own stack organization.
+- **Google ADK 1.0 GA with native A2A** — First major framework to ship A2A as a core primitive. Every ADK tutorial being written now uses ADK vocabulary, not OSOP. OSP-0004 gap is live.
+- **LangGraph OAP v1.0 GA** — Cross-framework execution protocol. LangGraph, CrewAI, MAF can now hand off tasks. OAP is the runtime; OSOP is the definition layer above it. Bridge doc still unwritten.
+- **Arazzo 1.0.1 stable; MCP spec references Arazzo directly** — MCP documentation now funnels developers to Arazzo. "Arazzo = missing piece" narrative actively circulating. Three-way comparison doc is the interception.
+- **VoltAgent: new open-source TypeScript agent framework** — Workflow + MCP + memory + RAG. Community forming. No portable workflow format yet. Integration window open.
+- **78% of enterprise AI teams have MCP-backed agents in production** (April 2026 survey) — OSOP's target audience is in production now, not future-state.
+- **GitHub Agentic Workflows in technical preview** — Markdown-based CI/CD agents generating search confusion with AI agent workflow definition.
 
-### Last Week's Top 3 Progress
+### Week 1 Top 3 Progress
 
 | Action | Status | Notes |
 |--------|--------|-------|
-| 1. OpenClaw PR | ⏳ Pending | Day 24. 30-minute task. Execute today. |
-| 2. OSP-0006: `skill_ref` RFC | ⏳ Pending | Agent Skills window open; write the RFC this week |
-| 3. AAIF submission | ⏳ Pending | New hook: MCP roadmap audit trail quote; submit this week |
+| 1. OpenClaw PR | ⏳ Pending | Day 32. SOUL.md companion framing ready. Execute today. |
+| 2. AAIF submission | ⏳ Pending | Draft exists. AG-UI gap = new hook. Submit this week. |
+| 3. OSP-0004: A2A agent subtype | ⏳ Pending | ADK 1.0 GA adds urgency. Now needs 3-hyperscaler examples. |
 
-### This Week's Priorities
+**All three Week 1 priorities remain pending.** This is the critical pattern to break in Week 2. No new strategic additions until at least one of these ships.
 
-1. **Execute OpenClaw PR** — Today. 30 minutes. Day 24. Non-negotiable.
-2. **Submit AAIF application** — The MCP 2026 Roadmap names audit trails as the top enterprise gap. OSOP fills it. Submit this week.
-3. **Write OSP-0004** — A2A is in Azure AI Foundry and Amazon Bedrock AgentCore. The spec must exist. Include platform-specific examples for both.
+### Week 2 Priorities
+
+1. **OpenClaw PR — SOUL.md companion** — Today. 45 minutes. Day 32. Non-negotiable.
+2. **Three-way comparison doc** — By Wednesday May 13. Arazzo + GitHub Agentic Workflows + OSOP. Publish to dev.to + Hacker News. Drop link in Arazzo GitHub Discussions.
+3. **AAIF submission** — By Friday May 15. Use the AG-UI gap as the new hook in the opening paragraph.
 
 ---
 
@@ -41,18 +44,29 @@ Items carried across multiple briefs without closure. Ordered by priority.
 
 | Action | Days Pending | Priority | Notes |
 |--------|-------------|----------|-------|
-| OpenClaw PR | 24 | 🔴 Critical | 30-minute task. Zero blockers. Execute. |
-| AAIF submission | 24 | 🔴 Critical | Draft exists. New hook available. Submit. |
-| OSP-0004: A2A agent subtype | 24 | 🔴 Critical | Now hyperscaler-urgent: Azure AI Foundry + Amazon Bedrock AgentCore |
-| AGNTCon/MCPCon CFP (NA + EU) | ~28 to deadline | 🔴 Critical | 4 weeks remaining. MCP roadmap quote is the hook. |
-| OSP-0005: Trust policy | 24 | 🟠 High | Enterprise governance requirement |
-| OSP-0006: `skill_ref` | 1 | 🟠 High | Agent Skills window open while standard is forming |
-| AI Engineer World's Fair CFP | ~35 to event | 🟠 High | Abstract drafted |
-| ADL x OSOP positioning piece | 24 | 🟡 Medium | ADL community still forming; window shrinking |
-| "MCP + OSOP" blog post | 24 | 🟡 Medium | Reframe as "the audit trail answer" |
-| Arazzo comparison doc | 24 | 🟡 Medium | Write before Arazzo 1.1 press cycle |
-| ACP workflow example | 2 | 🟡 Medium | |
-| Strands migration example | 2 | 🟡 Medium | |
+| OpenClaw PR | 32 | 🔴 Critical | SOUL.md companion framing ready. Zero blockers. Execute. |
+| AAIF submission | 32 | 🔴 Critical | AG-UI gap = new hook. Protocol ecosystem maps depend on this. |
+| OSP-0004: A2A agent subtype | 32 | 🔴 Critical | 3 hyperscaler examples: Google ADK 1.0, Azure AI Foundry, Bedrock AgentCore |
+| Three-way comparison doc | 2 | 🔴 Critical | Arazzo "missing piece" narrative setting. GitHub search confusion live. |
+| AGNTCon/MCPCon CFP (NA + EU) | ~21 days to deadline | 🔴 Critical | Deadline closing |
+| OSP-0005: Trust policy | 32 | 🟠 High | Enterprise governance requirement |
+| OSP-0006: `skill_ref` RFC | 9 | 🟠 High | Agent Skills window open |
+| `osoplog-otel-mapping.md` | 3 | 🟠 High | Prerequisite for AG2 PR, OTel blog, Red Hat pitch |
+| AG2 examples PR | 3 | 🟠 High | After `osoplog-otel-mapping.md` |
+| LangGraph bridge doc | 3 | 🟠 High | "OAP is the runtime, OSOP is the definition" |
+| AWS Agent Toolkit example | 2 | 🟠 High | May 6 news cycle; publish before it fades |
+| VoltAgent integration example | 1 | 🟠 High | New; community forming; integration window open |
+| Contact protocol ecosystem map authors | 1 | 🟠 High | New; 15-min task; permanent discoverability |
+| AI Engineer World's Fair CFP | ~30 days to event | 🟠 High | Abstract drafted |
+| README audit-trail reframe | 5 | 🟡 Medium | 30-min task |
+| Arazzo comparison doc | 32 | 🟡 Medium | Superseded by three-way comparison doc |
+| ACP workflow example | 10 | 🟡 Medium | |
+| Strands migration example | 10 | 🟡 Medium | |
+| Adobe Workfront example | 4 | 🟡 Medium | Workfront MCP June 2026 |
+| Red Hat Developer blog pitch | 3 | 🟡 Medium | |
+| NIST CAISI submission | 7 | 🟡 Medium | Check deadline |
+| Temporal community post | 7 | 🟡 Medium | |
+| Archon compatibility Discussion | 7 | 🟡 Medium | |
 
 ---
 
@@ -60,14 +74,16 @@ Items carried across multiple briefs without closure. Ordered by priority.
 
 | Milestone | Target | Status |
 |-----------|--------|--------|
-| First external PR submitted (OpenClaw) | May 4 | ⏳ |
-| AAIF application submitted | May 7 | ⏳ |
-| OSP-0004 published | May 10 | ⏳ |
-| AGNTCon/MCPCon CFP submitted (NA + EU) | Jun 1 | ⏳ |
-| Arazzo comparison doc published | May 10 | ⏳ |
+| First external PR submitted (OpenClaw) | May 4 → **May 11** | ⏳ Overdue by 7 days |
+| AAIF application submitted | May 7 → **May 15** | ⏳ Overdue by 8 days |
+| OSP-0004 published | May 10 → **May 17** | ⏳ Overdue by 1 day |
+| Three-way comparison doc published | **May 13** | ⏳ New |
+| `osoplog-otel-mapping.md` published | **May 14** | ⏳ New |
 | OSP-0005 + OSP-0006 RFCs published | May 15 | ⏳ |
-| First GitHub star on osop-spec | Day 30 (May 9) | 0 stars |
+| AGNTCon/MCPCon CFP submitted (NA + EU) | Jun 1 | ⏳ |
+| First GitHub star on osop-spec | Day 30 → **Day 45 (May 25)** | 0 stars |
 | First external contributor | Day 60 (Jun 8) | ⏳ |
+| OSOP on 3+ protocol ecosystem maps | Jun 8 | ⏳ New |
 
 ---
 
@@ -75,12 +91,17 @@ Items carried across multiple briefs without closure. Ordered by priority.
 
 | Proposal | Status | Priority | Summary |
 |----------|--------|----------|---------|
-| OSP-0004: A2A agent subtype | Draft pending | 🔴 Critical | `a2a` subtype + `osop export-agent-card`; Azure AI Foundry + Bedrock examples |
+| OSP-0004: A2A agent subtype | Draft pending | 🔴 Critical | `a2a` subtype + `osop export-agent-card`; ADK 1.0, Azure AI Foundry, Bedrock examples |
 | OSP-0005: Trust policy | Draft pending | 🔴 Critical | `trust_policy:` on agent nodes; enterprise governance |
-| OSP-0006: `skill_ref` | RFC pending | 🟠 High | Link agent nodes to Agent Skills `SKILL.md` manifests |
-| `workflow` node type | Idea | 🟡 Medium | First-class sub-workflow invocation (replaces `workflow_ref` on `system` nodes) |
+| OSP-0006: `skill_ref` | RFC pending | 🟠 High | Link agent nodes to Agent Skills manifests and SOUL.md |
+| `protocol_bindings:` top-level field | Idea | 🟠 High | **New** — Declarative manifest of MCP/A2A/AG-UI/OTel relationships |
+| `.osoplog` `ui_events` field | Idea | 🟠 High | **New** — AG-UI event log in execution records; no competing standard |
+| `state_schema:` at workflow level | Idea | 🟠 High | LangGraph-style typed state; critical for 34% enterprise adoption |
+| `max_cost_usd:` on workflow + agent nodes | Idea | 🟠 High | Enterprise cost governance; AWS Bedrock / token budgets |
+| `runtime.aws_toolkit` on agent nodes | Idea | 🟠 High | AWS Agent Toolkit binding alongside anthropic/openai/google/ag2 |
+| `workflow` node type | Idea | 🟡 Medium | First-class sub-workflow invocation |
 | Streaming semantics | Idea | 🟡 Medium | `runtime.streaming: true` + `runtime.stream_to` on agent nodes |
-| `.osoplog` to OTel export | Idea | 🟡 Medium | `osop log-export --format otel-json` |
+| `.osoplog` → OTel export | Idea | 🟡 Medium | `osop log-export --format otel-json` |
 | ADL manifest integration | Idea | 🟡 Medium | `runtime.adl_manifest` on agent nodes |
 
 ---
@@ -88,45 +109,60 @@ Items carried across multiple briefs without closure. Ordered by priority.
 ## Tooling Backlog
 
 | Tool | Priority | Status | Why Now |
-|------|----------|--------|---------|
-| `osop export-agent-card` | 🔴 Critical | Not built | A2A: 150 orgs, 22K stars, hyperscaler integration |
-| `osop export-bedrock` | 🔴 Critical | Not built | A2A in Amazon Bedrock AgentCore; largest enterprise AI cloud |
-| `osop export-azure-ai-foundry` | 🔴 Critical | Not built | A2A in Azure AI Foundry; MAF 1.0 GA |
-| `osop import-sop` | 🟠 High | Not built | Converts Strands + GitHub Agentic Workflow markdown users to OSOP |
-| `osop log-export --format otel-json` | 🟠 High | Not built | MCP roadmap names audit trail integration as enterprise gap |
-| `osop trust-audit` | 🟠 High | Not built | Enterprise pre-deployment checklist |
-| OSOP Playground (browser) | 🟡 Medium | Not built | Zero-install first experience; search-indexed |
-| GitHub Action: validate + trust-audit | 🟡 Medium | Not built | Zero-friction repo-level adoption |
+|------|----------|--------|----------|
+| `osop validate --log` | 🔴 Critical | Not built | `.osoplog` first-class validation |
+| `osop log-export --format otel-json` | 🔴 Critical | Not built | OTel GenAI stable; Datadog native |
+| `osop log-export --format cloudtrail` | 🔴 Critical | Not built | AWS MCP GA "auditable" language |
+| `osop export-agent-card` | 🔴 Critical | Not built | ADK 1.0 GA; A2A 5 SDKs; OSP-0004 |
+| `osop export-bedrock` | 🔴 Critical | Not built | SAP MCP GA + Agent Toolkit GA |
+| `osop export-azure-ai-foundry` | 🔴 Critical | Not built | Azure AI Foundry A2A native |
+| `osop protocols` | 🟠 High | Not built | **New** — `protocol_bindings:` manifest inspector |
+| `osop export-aws-agent-toolkit` | 🟠 High | Not built | AWS Agent Toolkit GA |
+| `osop export-voltagent` | 🟠 High | Not built | **New** — VoltAgent TypeScript DSL bridge |
+| `osop log-export --format siem` | 🟠 High | Not built | Enterprise SIEM (Splunk, Datadog) |
+| `osop trust-audit` | 🟠 High | Not built | Enterprise governance; AAIF |
+| `osop import-sop` | 🟠 High | Not built | Strands + GitHub markdown → OSOP |
+| `osop import-soul-md` | 🟡 Medium | Not built | OpenClaw 162 SOUL.md templates |
+| GitHub Action: validate + log-validate | 🟡 Medium | Not built | Zero-friction repo-level adoption |
+| OSOP Playground (browser) | 🟡 Medium | Not built | Zero-install first experience |
 | `osop export-n8n` | 🟡 Medium | Not built | 150K-star ecosystem bridge |
+| JetBrains plugin | 🟡 Medium | Not built | Port `osop-vscode`; 10M+ devs |
 
 ---
 
 ## Positioning Stack
 
-The agentic AI infrastructure stack is naming itself. OSOP's layer is defined by exclusion.
+The agentic AI protocol stack now has four named layers. OSOP's seat is defined by exclusion.
 
 | Layer | Standard | Governance | Status |
 |-------|----------|------------|--------|
 | Tool connectivity | MCP | AAIF / Linux Foundation | ✅ Live — 97M monthly SDK downloads, 5,800+ servers |
 | Agent-to-agent routing | A2A | AAIF / Linux Foundation | ✅ Live — 150+ orgs, 22K+ stars, Azure AI Foundry + Amazon Bedrock |
-| Agent capabilities | Agent Skills | OpenClaw ecosystem | ✅ Emerging — 4-tool adoption in 1 week |
+| UI streaming | AG-UI | Emerging | ✅ Adopted — cited in major protocol comparison guides |
 | Cross-framework execution | LangGraph OAP | LangGraph | ✅ Live — v1.0 GA |
-| **Workflow definition + execution audit** | **OSOP** | *Unsubmitted to AAIF* | ⏳ **Unoccupied seat** |
+| Agent capabilities | Agent Skills | OpenClaw ecosystem | ✅ Emerging — 4-tool adoption |
+| API workflow documentation | Arazzo | OpenAPI Initiative / Linux Foundation | ✅ Live — 1.0.1 stable, MCP spec reference |
+| Span-level observability | OTel GenAI | CNCF | ✅ Stable — native in AG2, Temporal, all major platforms |
+| **Workflow definition + execution audit** | **OSOP** | *Submitted to AAIF → pending* | ⏳ **Unoccupied seat** |
 
 ---
 
 ## Adoption Targets
 
-| Metric | Day 30 (May 9) | Day 60 (Jun 8) | Day 90 (Jul 8) |
-|--------|----------------|----------------|----------------|
-| GitHub stars (osop-spec) | 50 | 200 | 500 |
-| Combined ecosystem stars | 100 | 500 | 2,000 |
-| External PRs merged | 3 | 10 | 25 |
-| Repos with .osop files | 5 | 20 | 50 |
-| PyPI/NPM downloads | 500/mo | 2k/mo | 10k/mo |
-| Blog/content views | 2k | 10k | 50k |
-| OSP proposals published | 6 | 8 | 12 |
-| CFP submissions | 3 | — | 1+ accepted |
+| Metric | Day 32 (May 11) | Day 60 (Jun 8) | Day 90 (Jul 8) |
+|--------|-----------------|----------------|----------------|
+| GitHub stars (osop-spec) | 0 | 200 | 500 |
+| Combined ecosystem stars | 0 | 500 | 2,000 |
+| External PRs submitted | 0 | 5 | 15 |
+| External PRs merged | 0 | 10 | 25 |
+| Repos with `.osop` files | 0 | 20 | 50 |
+| Protocol ecosystem map appearances | 0 | 3 | 8 |
+| PyPI downloads | — | 2k/mo | 10k/mo |
+| NPM downloads | — | 2k/mo | 10k/mo |
+| Blog/content views | 0 | 10k | 50k |
+| AAIF submission status | Draft | In review | Accepted |
+| OSP proposals published | 0 | 8 | 12 |
+| CFP submissions | 0 | 3 | 1+ accepted |
 
 ---
 
@@ -141,4 +177,4 @@ The agentic AI infrastructure stack is naming itself. OSOP's layer is defined by
 ---
 
 *Daily briefs: [`docs/strategy/`](./strategy/)*
-*Previous weekly synths: this is the first ROADMAP entry (week of May 4, 2026).*
+*Week 1 synthesis: see [`2026-05-10-daily-brief.md`](./strategy/2026-05-10-daily-brief.md)*
