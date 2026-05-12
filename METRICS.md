@@ -1,6 +1,6 @@
 # OSOP Ecosystem Metrics
 
-Last updated: 2026-05-11 11:15 UTC
+Last updated: 2026-05-12 10:29 UTC
 
 ## Repositories
 
@@ -28,7 +28,7 @@ Total OSOP repos: **0**
 
 ## Pull Requests
 
-- Open PRs: **25**
+- Open PRs: **24**
 - Merged PRs: **?**
 
 ### Open PRs
@@ -58,7 +58,6 @@ Total OSOP repos: **0**
 | punkpeye/awesome-mcp-servers | #3983 | Add OSOP MCP Server — AI agent workflow validation and risk analysis |
 | detailobsessed/awesome-windsurf | #288 | feat: add OSOP session logging prompt |
 | continuedev/awesome-rules | #12 | Add OSOP session logging rule |
-| PatrickJS/awesome-cursorrules | #219 | Add OSOP session logging rule |
 | anthropics/knowledge-work-plugins | #159 | Add OSOP plugin to partner-built |
 
 ---
