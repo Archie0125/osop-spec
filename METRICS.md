@@ -1,6 +1,6 @@
 # OSOP Ecosystem Metrics
 
-Last updated: 2026-06-04 10:58 UTC
+Last updated: 2026-06-05 11:26 UTC
 
 ## Repositories
 
