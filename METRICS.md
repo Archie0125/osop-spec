@@ -1,6 +1,6 @@
 # OSOP Ecosystem Metrics
 
-Last updated: 2026-06-27 10:05 UTC
+Last updated: 2026-06-28 10:25 UTC
 
 ## Repositories
 
@@ -28,7 +28,7 @@ Total OSOP repos: **0**
 
 ## Pull Requests
 
-- Open PRs: **19**
+- Open PRs: **18**
 - Merged PRs: **?**
 
 ### Open PRs
@@ -53,7 +53,6 @@ Total OSOP repos: **0**
 | crewAIInc/crewAI-examples | #361 | Add OSOP interop — portable workflow format for CrewAI crews |
 | e2b-dev/awesome-ai-agents | #648 | Add OSOP — open standard for AI agent workflows |
 | detailobsessed/awesome-windsurf | #288 | feat: add OSOP session logging prompt |
-| anthropics/knowledge-work-plugins | #159 | Add OSOP plugin to partner-built |
 
 ---
 *Generated automatically by [daily-metrics.yml](https://github.com/Archie0125/osop-spec/actions)*
