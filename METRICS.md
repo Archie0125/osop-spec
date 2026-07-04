@@ -1,6 +1,6 @@
 # OSOP Ecosystem Metrics
 
-Last updated: 2026-07-03 10:33 UTC
+Last updated: 2026-07-04 10:07 UTC
 
 ## Repositories
 
@@ -52,7 +52,7 @@ Total OSOP repos: **0**
 | FoundationAgents/MetaGPT | #1995 | Add OSOP workflow example — portable format for MetaGPT role orchestration |
 | crewAIInc/crewAI-examples | #361 | Add OSOP interop — portable workflow format for CrewAI crews |
 | e2b-dev/awesome-ai-agents | #648 | Add OSOP — open standard for AI agent workflows |
-| detailobsessed/awesome-windsurf | #288 | feat: add OSOP session logging prompt |
+| detailobsessed/awesome-devin | #288 | feat: add OSOP session logging prompt |
 
 ---
 *Generated automatically by [daily-metrics.yml](https://github.com/Archie0125/osop-spec/actions)*
