@@ -1,6 +1,6 @@
 # OSOP Ecosystem Metrics
 
-Last updated: 2026-07-07 10:52 UTC
+Last updated: 2026-07-08 10:14 UTC
 
 ## Repositories
 
@@ -10,21 +10,21 @@ Total OSOP repos: **0**
 |------|------:|----------|
 | [langchain-osop](https://github.com/Archie0125/langchain-osop) | 0 | Python |
 | [n8n-nodes-osop](https://github.com/Archie0125/n8n-nodes-osop) | 0 | TypeScript |
-| [osop](https://github.com/Archie0125/osop) | 0 | Python |
-| [osop-agent-rules](https://github.com/Archie0125/osop-agent-rules) | 3 | Shell |
-| [osop-canva](https://github.com/Archie0125/osop-canva) | 0 | TypeScript |
+| [osop](https://github.com/Archie0125/osop) | 1 | Python |
+| [osop-agent-rules](https://github.com/Archie0125/osop-agent-rules) | 4 | Shell |
+| [osop-canva](https://github.com/Archie0125/osop-canva) | 1 | TypeScript |
 | [osop-crewai](https://github.com/Archie0125/osop-crewai) | 0 | Python |
-| [osop-editor](https://github.com/Archie0125/osop-editor) | 0 | TypeScript |
-| [osop-examples](https://github.com/Archie0125/osop-examples) | 0 | Python |
+| [osop-editor](https://github.com/Archie0125/osop-editor) | 1 | TypeScript |
+| [osop-examples](https://github.com/Archie0125/osop-examples) | 1 | Python |
 | [osop-figjam](https://github.com/Archie0125/osop-figjam) | 0 | TypeScript |
-| [osop-interop](https://github.com/Archie0125/osop-interop) | 0 | Python |
+| [osop-interop](https://github.com/Archie0125/osop-interop) | 1 | Python |
 | [osop-marketplace](https://github.com/Archie0125/osop-marketplace) | 0 | - |
-| [osop-mcp](https://github.com/Archie0125/osop-mcp) | 0 | Python |
-| [osop-sdk-js](https://github.com/Archie0125/osop-sdk-js) | 0 | TypeScript |
-| [osop-sdk-py](https://github.com/Archie0125/osop-sdk-py) | 0 | Python |
-| [osop-skill](https://github.com/Archie0125/osop-skill) | 0 | Python |
-| [osop-spec](https://github.com/Archie0125/osop-spec) | 0 | TypeScript |
-| [osop-vscode](https://github.com/Archie0125/osop-vscode) | 0 | TypeScript |
+| [osop-mcp](https://github.com/Archie0125/osop-mcp) | 1 | Python |
+| [osop-sdk-js](https://github.com/Archie0125/osop-sdk-js) | 1 | TypeScript |
+| [osop-sdk-py](https://github.com/Archie0125/osop-sdk-py) | 1 | Python |
+| [osop-skill](https://github.com/Archie0125/osop-skill) | 1 | Python |
+| [osop-spec](https://github.com/Archie0125/osop-spec) | 1 | TypeScript |
+| [osop-vscode](https://github.com/Archie0125/osop-vscode) | 1 | TypeScript |
 
 ## Pull Requests
 
