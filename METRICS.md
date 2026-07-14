@@ -1,6 +1,6 @@
 # OSOP Ecosystem Metrics
 
-Last updated: 2026-07-13 10:58 UTC
+Last updated: 2026-07-14 09:55 UTC
 
 ## Repositories
 
@@ -11,7 +11,7 @@ Total OSOP repos: **0**
 | [langchain-osop](https://github.com/Archie0125/langchain-osop) | 0 | Python |
 | [n8n-nodes-osop](https://github.com/Archie0125/n8n-nodes-osop) | 0 | TypeScript |
 | [osop](https://github.com/Archie0125/osop) | 1 | Python |
-| [osop-agent-rules](https://github.com/Archie0125/osop-agent-rules) | 4 | Shell |
+| [osop-agent-rules](https://github.com/Archie0125/osop-agent-rules) | 5 | Shell |
 | [osop-canva](https://github.com/Archie0125/osop-canva) | 1 | TypeScript |
 | [osop-crewai](https://github.com/Archie0125/osop-crewai) | 0 | Python |
 | [osop-editor](https://github.com/Archie0125/osop-editor) | 1 | TypeScript |
