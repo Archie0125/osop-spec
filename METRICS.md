@@ -1,6 +1,6 @@
 # OSOP Ecosystem Metrics
 
-Last updated: 2026-09-27 13:31 UTC
+Last updated: 2026-09-28 16:26 UTC
 
 ## Repositories
 
@@ -28,7 +28,7 @@ Total OSOP repos: **0**
 
 ## Pull Requests
 
-- Open PRs: **17**
+- Open PRs: **16**
 - Merged PRs: **?**
 
 ### Open PRs
@@ -47,7 +47,6 @@ Total OSOP repos: **0**
 | restyler/awesome-n8n | #28 | Add n8n-nodes-osop — workflow import/export/validation nodes |
 | agno-agi/agno | #7290 | Add OSOP workflow example — research agent in portable format |
 | openai/swarm | #76 | Add OSOP workflow example — agent handoff pattern in portable format |
-| microsoft/semantic-kernel | #13727 | Add OSOP workflow example — automated code review pipeline |
 | FoundationAgents/MetaGPT | #1995 | Add OSOP workflow example — portable format for MetaGPT role orchestration |
 | crewAIInc/crewAI-examples | #361 | Add OSOP interop — portable workflow format for CrewAI crews |
 | e2b-dev/awesome-ai-agents | #648 | Add OSOP — open standard for AI agent workflows |
