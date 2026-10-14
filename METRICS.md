@@ -1,6 +1,6 @@
 # OSOP Ecosystem Metrics
 
-Last updated: 2026-10-13 15:33 UTC
+Last updated: 2026-10-14 13:18 UTC
 
 ## Repositories
 
@@ -28,7 +28,7 @@ Total OSOP repos: **0**
 
 ## Pull Requests
 
-- Open PRs: **16**
+- Open PRs: **15**
 - Merged PRs: **?**
 
 ### Open PRs
@@ -40,7 +40,6 @@ Total OSOP repos: **0**
 | filipecalegario/awesome-generative-ai | #433 | Add AEO Scanner to Online Tools and Applications |
 | humanloop/awesome-chatgpt | #225 | Add AEO Scanner to Applications |
 | steven2358/awesome-generative-ai | #537 | Add AEO Scanner to Search engines section |
-| luka2chat/awesome-geo | #5 | Add AEO Scanner to Content Optimization Tools |
 | krish-adi/llmstxt-site | #220 | Add AEO Scanner llms.txt |
 | mahseema/awesome-ai-tools | #999 | Add AEO Scanner - Free AEO/GEO Website Scoring Tool |
 | windmill-labs/windmill | #8670 | Add OSOP workflow example — API data sync in portable format |
